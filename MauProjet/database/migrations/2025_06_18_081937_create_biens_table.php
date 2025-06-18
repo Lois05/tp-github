@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float(column:'prix');
             $table->string(column: 'statut');
             $table->timestamps();
+
         });
     }
 
