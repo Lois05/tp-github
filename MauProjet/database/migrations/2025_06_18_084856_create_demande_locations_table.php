@@ -16,8 +16,8 @@ return new class extends Migration
             $table->date(column:'dateDebut');
             $table->date(column:'dateFin');
             $table->string(column:'statut');
-            $table->foreignId(column:'id_bien')->constrained(table:'biens')->onDelete(action:'cascade');
-            $table->foreignId(column:'id_locataire')->constrained(table:'locataire')->onDelete(action:'cascade');
+            $table->foreignId(column:'id_bien')->constrained(table:'biens');
+            $table->foreignId(column:'id_locataire')->constrained(table:'locataires');
             $table->timestamps();
         });
     }

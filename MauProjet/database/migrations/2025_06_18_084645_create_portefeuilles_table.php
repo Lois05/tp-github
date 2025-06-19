@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->float(column: 'solde');
             $table->string(column: 'devise', length:255);
-            $table->foreignId(column:'id_locataire')->constrained(table:'locataire')->onDelete(action:'cascade');
+            $table->foreignId(column:'locataire_id')->nullable()->constrained(table:'locataires');
+            $table->foreignId(column:'proprietaire_id')->nullable()->constrained(table:'proprietaires');
+            $table->foreignId(column:'admin_id')->nullable()->constrained(table:'admins');
             $table->timestamps();
         });
     }

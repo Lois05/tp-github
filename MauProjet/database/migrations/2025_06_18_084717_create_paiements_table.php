@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
-            $table->date(column:'datePaiement');
-            $table->float(column:'montant');
-            $table->string(column:'modePaiement', length:255);
-            $table->string(column:'statut');
+            $table->date('datePaiement');
+            $table->float('montant');
+            $table->string('modePaiement', 255);
+            $table->string('statut');
+            $table->foreignId(column:'demandeLocation_id')->nullable()->constrained(table:'demandeLocations');
             $table->timestamps();
         });
     }
