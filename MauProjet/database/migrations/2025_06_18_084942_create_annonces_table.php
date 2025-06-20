@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column:'bien_id')->constrained(table:'biens')->onDelete(action:'cascade');
+            $table->foreignId(column:'bien_id')->constrained(table:'biens');
             $table->foreignId(column:'proprietaire_id')->constrained(table:'proprietaires');
             $table->timestamps();
         });

@@ -9,11 +9,11 @@ class Paiement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date_paiement', 'montant', 'mode_paiement', 'statut', 'demandeLocation_id'];
+    protected $fillable = ['datePaiement', 'montant', 'modePaiement', 'statut', 'demandeLocation_id'];
 
-    public function demandelocation()
+    public function demandeLocation()
     {
-        return $this->belongsTo(DemandeLocation::class, 'demande_location_id');
+        return $this->belongsTo(DemandeLocation::class, 'demandeLocation_id');
     }
     //
 }

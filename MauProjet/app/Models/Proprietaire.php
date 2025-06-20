@@ -9,11 +9,13 @@ class Proprietaire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'prenom', 'email', 'mot_de_passe', 'telephone'];
+    protected $fillable = ['nom', 'prenom', 'email', 'password', 'telephone'];
+
+    protected $hidden = ['password'];
 
     public function portefeuille()
     {
-        return $this->hasOne(Portefeuille::class);
+        return $this->hasOne(Portefeuille::class, 'proprietaire');
     }
 
     public function annonces()

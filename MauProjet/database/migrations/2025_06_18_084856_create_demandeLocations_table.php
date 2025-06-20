@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demande_locations', function (Blueprint $table) {
+        Schema::create('demandeLocations', function (Blueprint $table) {
             $table->id();
             $table->date(column:'dateDebut');
             $table->date(column:'dateFin');
             $table->string(column:'statut');
-            $table->foreignId(column:'id_bien')->constrained(table:'biens');
-            $table->foreignId(column:'id_locataire')->constrained(table:'locataires');
+            $table->foreignId(column:'bien_id')->constrained(table:'biens');
+            $table->foreignId(column:'locataire_id')->constrained(table:'locataires');
             $table->timestamps();
         });
     }

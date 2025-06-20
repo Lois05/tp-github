@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
-            $table->string(column: 'nom', length:255);
-            $table->longText(column: 'description');
-            $table->string(column: 'localistion', length:255);
-            $table->float(column:'prix');
-            $table->string(column: 'statut');
+            $table->string('nom', length:255);
+            $table->longText('description');
+            $table->string('localistion', length:255);
+            $table->float('prix');
+            $table->enum('statut', ['disponible', 'reserver', 'indisponible'])->default('disponible');
+            $table->unsignedBigInteger('categorie_id');
+            $table->foreign('categorie_id')->references('id')->on('categories');
             $table->timestamps();
 
         });

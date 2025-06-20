@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string(column: 'nom', length:255);
             $table->string(column: 'prenom', length:255);
-            $table->string(column: 'email');
-            $table->string(column: 'mot de passe');
+            $table->string(column: 'email', length:255)->unique();
+            $table->string(column: 'password')->unique();
             $table->string(column: 'telephone',length:255);
             $table->timestamps();
         });

@@ -9,14 +9,14 @@ class Bien extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'description', 'localisation', 'prix', 'statut'];
+    protected $fillable = ['nom', 'description', 'localisation', 'prix', 'statut', 'categorie_id'];
 
     public function annonce()
     {
         return $this->hasOne(Annonce::class, 'bien_id');
     }
 
-    public function demandeslocation()
+    public function demandeLocations()
     {
         return $this->hasMany(DemandeLocation::class, 'bien_id');
     }
@@ -24,5 +24,10 @@ class Bien extends Model
     public function avis()
     {
         return $this->hasMany(Avis::class, 'bien_id');
+    }
+
+    public function categorie()
+    {
+        return $this->belongTo(Categorie::class, 'categorie_id');
     }
 }

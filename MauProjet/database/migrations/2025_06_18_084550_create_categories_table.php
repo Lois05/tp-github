@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locataires', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string(column: 'nom', length:255);
-            $table->string(column: 'prenom', length:255);
-            $table->string(column: 'email', length:255)->unique();
-            $table->string(column: 'password')->unique();
-            $table->string(column: 'telephone',length:255);
+            $table->string('nom');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locataires');
+        Schema::dropIfExists('categories');
     }
 };

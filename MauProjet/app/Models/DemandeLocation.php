@@ -9,7 +9,7 @@ class DemandeLocation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['bien_id', 'locataire_id', 'date_debut', 'date_fin', 'statut'];
+    protected $fillable = ['dateDebut', 'dateFin', 'statut', 'bien_id', 'locataire_id'];
 
     public function bien()
     {
