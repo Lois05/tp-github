@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('proprietaires', function (Blueprint $table) {
             $table->id();
-            $table->string(column: 'nom', length:255);
-            $table->string(column: 'prenom', length:255);
-            $table->string(column: 'email', length:255)->unique();
-            $table->string(column: 'password')->unique();
-            $table->string(column: 'telephone',length:255);
+            $table->string('nom', 255);
+            $table->string('prenom', 255);
+            $table->string('email', 191)->unique();
+            $table->string('password', 255);
+            $table->string('telephone', 255);
             $table->timestamps();
         });
     }
