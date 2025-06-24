@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('montant');
             $table->string('mode_paiement', 255);
             $table->string('statut');
-            $table->foreignId(column:'demande_location_id')->nullable()->constrained(table:'demandeLocations');
+            $table->foreignId(column:'demande_location_id')->nullable()->constrained(table:'demande_locations');
             $table->timestamps();
         });
     }
