@@ -71,7 +71,7 @@ class BienController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required|string',
-            'categorie_id' => 'required|exists:categories,id',
+            'categorie_id' => 'nullable|exists:categories,id',
         ]);
 
         $bien->update($request->all());

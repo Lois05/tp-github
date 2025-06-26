@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label for="categorie_id">Catégorie</label>
-            <select name="categorie_id" id="categorie_id" class="form-control" required>
+            <select name="categorie_id" id="categorie_id" class="form-control">
                 <option value="">-- Sélectionnez une catégorie --</option>
                 @foreach($categories as $categorie)
                     <option value="{{ $categorie->id }}" {{ old('categorie_id', $bien->categorie_id) == $categorie->id ? 'selected' : '' }}>

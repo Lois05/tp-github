@@ -28,6 +28,6 @@ class Bien extends Model
 
     public function categorie()
     {
-        return $this->belongTo(Categorie::class, 'categorie_id');
+        return $this->belongsTo(Categorie::class, 'categorie_id');
     }
 }
