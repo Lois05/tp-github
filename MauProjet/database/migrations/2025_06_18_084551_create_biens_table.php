@@ -13,15 +13,10 @@ return new class extends Migration
     {
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', length:255);
+            $table->string('nom');
             $table->longText('description');
-            $table->string('localistion', length:255);
-            $table->float('prix');
-            $table->enum('statut', ['disponible', 'reserver', 'indisponible'])->default('disponible');
-            $table->unsignedBigInteger('categorie_id');
-            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreignId('categorie_id')->nullable()->constrained('categories');
             $table->timestamps();
-
         });
     }
 
