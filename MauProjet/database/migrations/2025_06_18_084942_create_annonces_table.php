@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column:'bien_id')->constrained(table:'biens');
-            $table->foreignId(column:'proprietaire_id')->constrained(table:'proprietaires');
+            $table->string('localisation');
+            $table->float('prix');
+            $table->string('statut');
+            $table->foreignId('bien_id')->constrained('biens');
+            $table->foreignId('proprietaire_id')->constrained('proprietaires');
             $table->timestamps();
         });
     }

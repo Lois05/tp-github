@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('avis', function (Blueprint $table) {
             $table->id();
-            $table->float(column:'note');
-            $table->date(column:'date');
-            $table->foreignId(column:'locataire_id')->constrained(table:'locataires');
-            $table->foreignId(column:'bien_id')->constrained(table:'biens');
+            $table->float('note');
+            $table->longText('commentaire');
+            $table->date('date');
+            $table->foreignId('locataire_id')->constrained('locataires');
+            $table->foreignId('annonce_id')->constrained('annonces');
             $table->timestamps();
         });
     }

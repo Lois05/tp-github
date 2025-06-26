@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('portefeuilles', function (Blueprint $table) {
             $table->id();
-            $table->float(column: 'solde');
-            $table->string(column: 'devise', length:255);
-            $table->foreignId(column:'locataire_id')->nullable()->constrained(table:'locataires');
-            $table->foreignId(column:'proprietaire_id')->nullable()->constrained(table:'proprietaires');
-            $table->foreignId(column:'admin_id')->nullable()->constrained(table:'admins');
+            $table->float('solde');
+            $table->foreignId('locataire_id')->constrained('locataires');
+            $table->foreignId('proprietaire_id')->constrained('proprietaires');
+            $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
         });
     }

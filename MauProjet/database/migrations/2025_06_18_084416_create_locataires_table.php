@@ -13,18 +13,23 @@ return new class extends Migration
     {
         Schema::create('locataires', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 255);
-            $table->string('prenom', 255);
-            $table->string('email', 191)->unique();
-            $table->string('password', 255);
-            $table->string('telephone', 255);
+            $table->foreignId('user_id')->unique()->constrained('users');
+
+            $table->enum('type', ['physique', 'moral']);
+
+            // Physique
+            $table->date('date_naissance')->nullable();
+            $table->string('npi')->nullable();
+
+            // Moral
+            $table->string('raison_sociale')->nullable();
+            $table->string('registre_commerce')->nullable();
+            $table->string('representant_legal')->nullable();
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('locataires');

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('demande_locations', function (Blueprint $table) {
             $table->id();
-            $table->date(column:'dateDebut');
-            $table->date(column:'dateFin');
-            $table->string(column:'statut');
-            $table->foreignId(column:'bien_id')->constrained(table:'biens');
-            $table->foreignId(column:'locataire_id')->constrained(table:'locataires');
+            $table->date('date_debut');
+            $table->date('date_fin');
+            $table->string('statut');
+            $table->foreignId('bien_id')->constrained('biens');
+            $table->foreignId('locataire_id')->constrained('locataires');
             $table->timestamps();
         });
     }

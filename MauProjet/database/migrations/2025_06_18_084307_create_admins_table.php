@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 255);
-            $table->string('prenom', 255);
-            $table->string('email', 191)->unique();
-            $table->string('password', 255);
-            $table->string('telephone', 255);
+            $table->foreignId('user_id')->unique()->constrained('users');
+            $table->string('matricule')->unique();
             $table->timestamps();
         });
     }

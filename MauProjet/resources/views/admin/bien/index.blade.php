@@ -24,7 +24,7 @@
         <tbody>
             @forelse($biens as $bien)
                 <tr>
-                    <td>{{ $bien->id }}</td>
+                    <td>{{ $loop->index + 1 }}</td>
                     <td>{{ $bien->nom }}</td>
 
                     <td>{{ $bien->categorie->nom ?? 'Non défini' }}</td>

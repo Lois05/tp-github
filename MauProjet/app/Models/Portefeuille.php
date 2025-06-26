@@ -9,7 +9,7 @@ class Portefeuille extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['locataire_id', 'proprietaire_id', 'admin_id', 'solde', 'devise'];
+    protected $fillable = ['solde', 'locataire_id', 'proprietaire_id', 'admin_id'];
 
     public function locataire()
     {

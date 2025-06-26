@@ -9,13 +9,18 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'prenom', 'email', 'password', 'telephone'];
+    protected $fillable = ['user_id', 'matricule'];
 
     protected $hidden = ['password'];
 
     public function portefeuille()
     {
         return $this->hasOne(Portefeuille::class, 'admin_id');
+    }
+    //
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
     //
 }
