@@ -9,7 +9,7 @@ class Bien extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'description', 'localisation', 'prix', 'statut', 'categorie_id'];
+    protected $fillable = ['nom', 'description', 'categorie_id'];
 
     public function annonce()
     {
