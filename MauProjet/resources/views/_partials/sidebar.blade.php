@@ -73,46 +73,8 @@
             </ul>
           </li>
 
-          <!-- Gestion des Litiges -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">Litiges</h6>
-          </li>
-          <li class="nk-menu-item">
-            <a href="{{ url('admin/litiges') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-alert-circle-fill"></em></span>
-              <span class="nk-menu-text">Gestion des litiges</span>
-            </a>
-          </li>
 
-          <!-- Quittances -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">Quittances</h6>
-          </li>
-          <li class="nk-menu-item has-sub">
-            <a href="#" class="nk-menu-link nk-menu-toggle">
-              <span class="nk-menu-icon"><em class="icon ni ni-file-text-fill"></em></span>
-              <span class="nk-menu-text">Gestion des quittances</span>
-            </a>
-            <ul class="nk-menu-sub">
-              <li class="nk-menu-item">
-                <a href="{{ url('admin/quittances') }}" class="nk-menu-link">Liste des quittances</a>
-              </li>
-              <li class="nk-menu-item">
-                <a href="{{ url('admin/quittances/create') }}" class="nk-menu-link">Créer une quittance</a>
-              </li>
-            </ul>
-          </li>
 
-          <!-- Statistiques -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">Statistiques</h6>
-          </li>
-          <li class="nk-menu-item">
-            <a href="{{ url('admin/statistiques') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-chart-bar-fill"></em></span>
-              <span class="nk-menu-text">Tableaux de bord statistiques</span>
-            </a>
-          </li>
 
           <!-- Paramètres -->
           <li class="nk-menu-heading">
