@@ -16,12 +16,12 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.categorie.store') }}" method="POST">
+    <form action="{{ route('admin.categorie-bien.store') }}" method="POST">
         @csrf
         @include('admin.categorie_bien._partial.form')
 
         <button type="submit" class="btn btn-success">Créer</button>
-        <a href="{{ route('admin.categorie.index') }}" class="btn btn-secondary">Annuler</a>
+        <a href="{{ route('admin.categorie-bien.index') }}" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 @endsection

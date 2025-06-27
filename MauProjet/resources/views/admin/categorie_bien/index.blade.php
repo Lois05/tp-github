@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <a href="{{ route('admin.categorie.create') }}" class="btn btn-primary mb-3">Ajouter une Catégorie</a>
+    <a href="{{ route('admin.categorie-bien.create') }}" class="btn btn-primary mb-3">Ajouter une Catégorie</a>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -30,9 +30,9 @@
                     <td>{{ $categorie->nom }}</td>
                     <td>{{ \Illuminate\Support\Str::limit($categorie->description, 50) }}</td>
                     <td>
-                        <a href="{{ route('admin.categorie.show', $categorie) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ route('admin.categorie.edit', $categorie) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        <form action="{{ route('admin.categorie.destroy', $categorie) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette catégorie ?')">
+                        <a href="{{ route('admin.categorie-bien.show', $categorie) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ route('admin.categorie-bien.edit', $categorie) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <form action="{{ route('admin.categorie-bien.destroy', $categorie) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette catégorie ?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Supprimer</button>

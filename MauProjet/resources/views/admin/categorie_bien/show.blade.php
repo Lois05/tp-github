@@ -16,8 +16,8 @@
         </div>
     </div>
 
-    <a href="{{ route('admin.categorie.index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
-    <a href="{{ route('admin.categorie.edit', $categorie) }}" class="btn btn-warning mt-3">Modifier</a>
+    <a href="{{ route('admin.categorie-bien.index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    <a href="{{ route('admin.categorie-bien.edit', $categorie) }}" class="btn btn-warning mt-3">Modifier</a>
 </div>
 @endsection
 

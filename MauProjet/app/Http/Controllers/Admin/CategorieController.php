@@ -28,7 +28,7 @@ class CategorieController extends Controller
 
         Categorie::create($request->all());
 
-        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie créée avec succès.');
+        return redirect()->route('admin.categorie-bien.index')->with('success', 'Catégorie créée avec succès.');
     }
 
     public function show(Categorie $categorie)
@@ -50,12 +50,12 @@ class CategorieController extends Controller
 
         $categorie->update($request->all());
 
-        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie mise à jour avec succès.');
+        return redirect()->route('admin.categorie-bien.index')->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
-        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie supprimée avec succès.');
+        return redirect()->route('admin.categorie-bien.index')->with('success', 'Catégorie supprimée avec succès.');
     }
 }

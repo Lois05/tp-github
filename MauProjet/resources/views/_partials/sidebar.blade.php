@@ -46,7 +46,7 @@
                 <a href="{{ url('admin/users/create') }}" class="nk-menu-link">Ajouter un utilisateur</a>
               </li>
               <li class="nk-menu-item">
-                <a href="{{ url('admin/roles') }}" class="nk-menu-link">Gestion des rôles</a>
+                <a href="{{ route('admin.categorie-bien.index') }}" class="nk-menu-link">Gestion des rôles</a>
               </li>
             </ul>
           </li>
