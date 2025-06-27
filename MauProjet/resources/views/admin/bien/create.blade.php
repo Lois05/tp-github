@@ -27,7 +27,7 @@
             <textarea name="description" id="description" rows="5" class="form-control" required>{{ old('description') }}</textarea>
         </div>
 
-        
+
         <div class="form-group">
             <label for="categorie_id">Catégorie</label>
             <select name="categorie_id" id="categorie_id" class="form-control">
