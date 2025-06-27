@@ -1,66 +1,43 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Annonce;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AnnonceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $annonces = Annonce::all();
+        return view('admin.annonce.index', compact('annonces'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Annonce $annonce)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Annonce $annonce)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Annonce $annonce)
     {
-        //
+        $request->validate([
+            'statut' => ['required', Rule::in(['validee', 'rejetee'])],
+        ]);
+
+        $annonce->update([
+            'statut' => $request->statut,
+        ]);
+
+        return redirect()->route('admin.annonce.index')->with('success', 'Statut de l\'annonce mis à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Annonce $annonce)
+
+    public function show(Annonce $annonce)
     {
-        //
+        return view('admin.annonce.show', compact('annonces'));
+    }
+
+    public function edit(Annonce $annonce)
+    {
+        $categories = Annonce::all();
+        return view('admin.annonces.edit', compact('annonces'));
     }
 }

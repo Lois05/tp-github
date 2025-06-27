@@ -6,11 +6,18 @@
 
     <div class="card mt-4">
         <div class="card-body">
-            <h3 class="card-title">Titre : {{ 'Titre de l’annonce' }}</h3>
-            <p class="card-text"><strong>Description :</strong> {{ 'Description complète de l’annonce ici' }}</p>
-            <p class="card-text"><strong>Prix :</strong> {{ '10000' }} FCFA</p>
+            <p><strong>Localisation :</strong> {{ $annonce->localisation }}</p>
+            <p><strong>Prix :</strong> {{ number_format($annonce->prix, 0, ',', ' ') }} FCFA</p>
+            <p><strong>Statut :</strong>
+                @if($annonce->statut === 'disponible')
+                    <span class="badge bg-success">Disponible</span>
+                @else
+                    <span class="badge bg-danger">Indisponible</span>
+                @endif
+            </p>
+            <p><strong>Créée le :</strong> {{ $annonce->created_at->format('d/m/Y à H:i') }}</p>
 
-            <a href="{{ route('admin.annonces.edit', ['id' => 1]) }}" class="btn btn-warning">Modifier</a>
+            <a href="{{ route('admin.annonces.edit', $annonce) }}" class="btn btn-warning">Modifier</a>
             <a href="{{ route('admin.annonces.index') }}" class="btn btn-secondary ms-2">Retour à la liste</a>
         </div>
     </div>
