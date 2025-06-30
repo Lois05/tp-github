@@ -9,16 +9,16 @@ class Avis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['note', 'date', 'commentaire', 'locataire_id', 'bien_id'];
+    protected $fillable = ['note', 'date', 'commentaire', 'user_id', 'annonce_id'];
 
-    public function locataire()
+    public function user()
     {
-        return $this->belongsTo(Locataire::class, 'locataire_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function bien()
+    public function annonce()
     {
-        return $this->belongsTo(Bien::class, 'bien_id');
+        return $this->belongsTo(Annonce::class, 'annonce_id');
     }
     //
 }
