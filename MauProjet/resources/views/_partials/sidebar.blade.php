@@ -1,15 +1,19 @@
 <div class="nk-sidebar nk-sidebar-fixed is-light" data-content="sidebarMenu">
   <div class="nk-sidebar-element nk-sidebar-head">
     <div class="nk-sidebar-brand">
-      <a href="{{ url('admin') }}" class="logo-link nk-sidebar-logo">
-        <img class="logo-light logo-img" src="./images/logo.png" alt="logo">
-        <img class="logo-dark logo-img" src="./images/logo-dark.png" alt="logo-dark">
-        <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" alt="logo-small">
+      <a href="{{ route('admin.index') }}" class="logo-link nk-sidebar-logo">
+        <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" alt="logo">
+        <img class="logo-dark logo-img" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
+        <img class="logo-small logo-img logo-img-small" src="{{ asset('images/logo-small.png') }}" alt="logo-small">
       </a>
     </div>
     <div class="nk-menu-trigger me-n2">
-      <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
-      <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+      <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu">
+        <em class="icon ni ni-arrow-left"></em>
+      </a>
+      <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu">
+        <em class="icon ni ni-menu"></em>
+      </a>
     </div>
   </div>
 
@@ -23,35 +27,13 @@
             <h6 class="overline-title text-primary-alt">Dashboard</h6>
           </li>
           <li class="nk-menu-item">
-            <a href="{{ url('admin') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-speedometer"></em></span>
+            <a href="{{ route('admin.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
               <span class="nk-menu-text">Tableau de bord</span>
             </a>
           </li>
 
-          <!-- Gestion des Utilisateurs -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">Utilisateurs</h6>
-          </li>
-          <li class="nk-menu-item has-sub">
-            <a href="#" class="nk-menu-link nk-menu-toggle">
-              <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
-              <span class="nk-menu-text">Gestion Utilisateurs</span>
-            </a>
-            <ul class="nk-menu-sub">
-              <li class="nk-menu-item">
-                <a href="{{ url('admin/users') }}" class="nk-menu-link">Liste des utilisateurs</a>
-              </li>
-              <li class="nk-menu-item">
-                <a href="{{ url('admin/users/create') }}" class="nk-menu-link">Ajouter un utilisateur</a>
-              </li>
-              <li class="nk-menu-item">
-                <a href="{{ route('admin.categorie-bien.index') }}" class="nk-menu-link">Gestion des rôles</a>
-              </li>
-            </ul>
-          </li>
-
-          <!-- Gestion des Annonces -->
+          <!-- Annonces -->
           <li class="nk-menu-heading">
             <h6 class="overline-title text-primary-alt">Annonces</h6>
           </li>
@@ -62,28 +44,60 @@
             </a>
             <ul class="nk-menu-sub">
               <li class="nk-menu-item">
-                <a href="{{ url('admin/annonces') }}" class="nk-menu-link">Liste des annonces</a>
+                <a href="{{ route('admin.annonce.index') }}" class="nk-menu-link">Toutes les annonces</a>
               </li>
               <li class="nk-menu-item">
-                <a href="{{ url('admin/annonces/create') }}" class="nk-menu-link">Ajouter une annonce</a>
-              </li>
-              <li class="nk-menu-item">
-                <a href="{{ url('admin/categories') }}" class="nk-menu-link">Catégories</a>
+                <a href="{{ route('admin.annonce.create') }}" class="nk-menu-link">Ajouter une annonce</a>
               </li>
             </ul>
           </li>
 
-
-
-
-          <!-- Paramètres -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">Paramètres</h6>
-          </li>
+          <!-- Catégories de biens -->
           <li class="nk-menu-item">
-            <a href="{{ url('admin/settings') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
-              <span class="nk-menu-text">Paramètres généraux</span>
+            <a href="{{ route('admin.categorie-bien.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><em class="icon ni ni-list-thumb"></em></span>
+              <span class="nk-menu-text">Catégories de biens</span>
+            </a>
+          </li>
+
+          <!-- Biens -->
+          <li class="nk-menu-item">
+            <a href="{{ route('admin.bien.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
+              <span class="nk-menu-text">Biens disponibles</span>
+            </a>
+          </li>
+
+          <!-- Modules à venir -->
+          <li class="nk-menu-heading">
+            <h6 class="overline-title text-primary-alt">À venir</h6>
+          </li>
+
+          <li class="nk-menu-item">
+            <a href="#" class="nk-menu-link disabled" title="En développement">
+              <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
+              <span class="nk-menu-text">Gestion utilisateurs</span>
+            </a>
+          </li>
+
+          <li class="nk-menu-item">
+            <a href="#" class="nk-menu-link disabled" title="En développement">
+              <span class="nk-menu-icon"><em class="icon ni ni-wallet"></em></span>
+              <span class="nk-menu-text">Paiements & commissions</span>
+            </a>
+          </li>
+
+          <li class="nk-menu-item">
+            <a href="#" class="nk-menu-link disabled" title="En développement">
+              <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
+              <span class="nk-menu-text">Signalements</span>
+            </a>
+          </li>
+
+          <li class="nk-menu-item">
+            <a href="#" class="nk-menu-link disabled" title="En développement">
+              <span class="nk-menu-icon"><em class="icon ni ni-chart-bar"></em></span>
+              <span class="nk-menu-text">Statistiques</span>
             </a>
           </li>
 

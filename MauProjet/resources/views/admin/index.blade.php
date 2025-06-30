@@ -1,19 +1,8 @@
 @extends('layouts.admin')
 
-
-
 @section('title', 'Dashboard Admin')
 
 @section('content')
-@php
-    $totalAnnonces = 120;
-    $annoncesAttente = 8;
-    $totalUtilisateurs = 345;
-    $totalCategories = 8;
-    $litigesOuverts = 4;
-    $revenuMensuel = 215000;
-@endphp
-
 <div class="nk-block">
     <div class="nk-block-head">
         <h4 class="nk-block-title">Tableau de bord administrateur</h4>
@@ -80,50 +69,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Section annonces + litiges -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card card-bordered">
-                <div class="card-inner">
-                    <h6>Annonces en attente</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between">
-                            Annonce #1023
-                            <span>
-                                <button class="btn btn-sm btn-success">Valider</button>
-                                <button class="btn btn-sm btn-danger">Refuser</button>
-                            </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            Annonce #1024
-                            <span>
-                                <button class="btn btn-sm btn-success">Valider</button>
-                                <button class="btn btn-sm btn-danger">Refuser</button>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card card-bordered">
-                <div class="card-inner">
-                    <h6>Litiges récents</h6>
-                    <ul>
-                        <li>Litige #45678 - <span class="badge bg-warning">Ouvert</span></li>
-                        <li>Litige #45679 - <span class="badge bg-success">Résolu</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-@endsection
-
-@section('modal')
-<!-- Aucun modal pour l'instant -->
 @endsection
 
 @push('scripts')
@@ -135,7 +81,7 @@
             labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai'],
             datasets: [{
                 label: 'Locations',
-                data: [5, 10, 7, 14, 20],
+                data: [5, 10, 7, 14, 20], // Tu pourras rendre cela dynamique plus tard avec JSON
                 borderColor: 'blue',
                 fill: false
             }]
@@ -147,7 +93,7 @@
         data: {
             labels: ['Appartements', 'Maisons', 'Véhicules'],
             datasets: [{
-                data: [45, 30, 25],
+                data: [45, 30, 25], // À remplacer par des données réelles si besoin
                 backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
             }]
         }

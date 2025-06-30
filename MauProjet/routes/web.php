@@ -8,7 +8,8 @@ use App\Http\Controllers\Client\HomeController as ClientHomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('', [AdminHomeController::class, 'index']);
+    Route::get('/', [AdminHomeController::class, 'index'])->name('index');
+ // <-- ajouter name('index')
     Route::resource('bien', BienController::class);
     Route::resource('categorie-bien', CategorieController::class)->parameters([
         'categorie-bien' => 'categorie'
