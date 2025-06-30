@@ -52,7 +52,7 @@
             </ul>
           </li>
 
-          <!-- Catégories de biens -->
+          <!-- Catégories -->
           <li class="nk-menu-item">
             <a href="{{ route('admin.categorie-bien.index') }}" class="nk-menu-link">
               <span class="nk-menu-icon"><em class="icon ni ni-list-thumb"></em></span>
@@ -87,8 +87,9 @@
             </a>
           </li>
 
+          <!-- Signalements -->
           <li class="nk-menu-item">
-            <a href="#" class="nk-menu-link disabled" title="En développement">
+            <a href="{{ route('admin.avis.index') }}" class="nk-menu-link">
               <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
               <span class="nk-menu-text">Signalements</span>
             </a>
@@ -106,3 +107,4 @@
     </div>
   </div>
 </div>
+
