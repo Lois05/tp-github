@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AvisController;
 use App\Http\Controllers\Admin\AnnonceController;
 use App\Http\Controllers\Admin\BienController;
 use App\Http\Controllers\Admin\CategorieController;
@@ -11,10 +12,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminHomeController::class, 'index'])->name('index');
  // <-- ajouter name('index')
     Route::resource('bien', BienController::class);
-    Route::resource('categorie-bien', CategorieController::class)->parameters([
-        'categorie-bien' => 'categorie'
-    ]);
+    Route::resource('categorie-bien', CategorieController::class)->parameters(['categorie-bien' => 'categorie']);
     Route::resource('annonce', AnnonceController::class);
+    Route::resource('avis', AvisController::class)->only(['index', 'show', 'destroy']);
+
 });
 
 Route::prefix('/')->name('client.')->group(function () {

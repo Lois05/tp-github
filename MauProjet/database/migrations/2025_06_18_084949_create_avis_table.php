@@ -16,8 +16,9 @@ return new class extends Migration
             $table->float('note');
             $table->longText('commentaire');
             $table->date('date');
-            $table->foreignId('locataire_id')->constrained('locataires');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('annonce_id')->constrained('annonces');
+            $table->boolean('signale')->default(false);
             $table->timestamps();
         });
     }
