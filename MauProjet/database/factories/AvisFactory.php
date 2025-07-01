@@ -16,7 +16,7 @@ class AvisFactory extends Factory
             'date' => $this->faker->date(),
             'user_id' => User::factory(),
             'annonce_id' => \App\Models\Annonce::factory(),
-            'signale' => $this->faker->boolean(5),
+            'masque' => $this->faker->boolean(5),
         ];
     }
 }

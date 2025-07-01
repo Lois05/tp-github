@@ -25,6 +25,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/avis/masque', [AvisController::class, 'masque'])->name('admin.avis.masque');
 
     // Route spécifique pour bloquer/débloquer un utilisateur (PATCH)
+    Route::resource('users', UserController::class);
     Route::patch('users/{user}/toggle-block', [UserController::class, 'toggleBlock'])->name('users.toggleBlock');
 });
 
