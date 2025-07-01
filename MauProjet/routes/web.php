@@ -20,9 +20,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('biens', BienController::class);
     Route::resource('categorie-bien', CategorieController::class)->parameters(['categorie-bien' => 'categorie']);
     Route::resource('annonces', AnnonceController::class);
-    Route::resource('avis', AvisController::class)->only(['index', 'show', 'destroy']);
+    Route::resource('avis', AvisController::class)->only(['index', 'show', 'masque']);
     Route::patch('/avis/{avis}/toggle', [AvisController::class, 'toggleMasque'])->name('admin.avis.toggle');
-    Route::get('/avis/masques', [AvisController::class, 'masques'])->name('admin.avis.masques');
+    Route::get('/avis/masque', [AvisController::class, 'masque'])->name('admin.avis.masque');
 
     // Route spécifique pour bloquer/débloquer un utilisateur (PATCH)
     Route::patch('users/{user}/toggle-block', [UserController::class, 'toggleBlock'])->name('users.toggleBlock');
