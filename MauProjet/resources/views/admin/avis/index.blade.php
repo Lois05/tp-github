@@ -2,45 +2,61 @@
 
 @section('content')
 <div class="container py-4">
-    <h1 class="mb-4">Avis signalés par les propriétaires</h1>
+    <h1 class="mb-4">Tous les avis par annonce</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    @foreach($annonces as $annonce)
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong>Annonce : {{ $annonce->localisation }}</strong>
+            </div>
+            <div class="card-body p-0">
+                @if($annonce->avis->count())
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Note</th>
-                <th>Commentaire</th>
-                <th>Date</th>
-                <th>User</th>
-                <th>Annonce</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($avis as $avisItem)
-                <tr>
-                    <td>{{ $avisItem->id }}</td>
-                    <td>{{ $avisItem->bien->nom ?? 'Bien supprimé' }}</td>
-                    <td>{{ $avisItem->user->nom ?? 'Utilisateur inconnu' }}</td>
-                    <td><span class="badge bg-info text-dark">{{ $avisItem->note }}/5</span></td>
-                    <td>{{ Str::limit($avisItem->commentaire, 60) }}</td>
-                    <td>{{ $avisItem->created_at->format('d/m/Y') }}</td>
-                    <td>
-                        <form action="{{ route('admin.avis.destroy', $avisItem) }}" method="POST" onsubmit="return confirm('Supprimer cet avis signalé ?')" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="7" class="text-center">Aucun avis signalé pour le moment.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+                    <a href="{{ route('admin.avis.masques') }}" class="btn btn-outline-secondary mb-3">Voir uniquement les avis masqués</a>
+
+                    <table class="table mb-0 table-striped">
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Note</th>
+                                <th>Commentaire</th>
+                                <th>Statut</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($annonce->avis as $avis)
+                                <tr>
+                                    <td>{{ $avis->user->nom ?? 'Utilisateur inconnu' }}</td>
+                                    <td>{{ $avis->note }}/5</td>
+                                    <td>{{ Str::limit($avis->commentaire, 60) }}</td>
+                                    <td>
+                                        @if($avis->masque)
+                                            <span class="badge bg-danger">Masqué</span>
+                                        @else
+                                            <span class="badge bg-success">Visible</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $avis->created_at->format('d/m/Y') }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.avis.toggle', $avis) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button class="btn btn-sm {{ $avis->masque ? 'btn-success' : 'btn-warning' }}">
+                                                {{ $avis->masque ? 'Afficher' : 'Masquer' }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="p-3">Aucun avis pour cette annonce.</p>
+                @endif
+            </div>
+        </div>
+    @endforeach
 </div>
 @endsection

@@ -17,10 +17,10 @@
     </div>
   </div>
 
-  <div class="nk-sidebar-element">
-    <div class="nk-sidebar-content">
-      <div class="nk-sidebar-menu" data-simplebar>
-        <ul class="nk-menu">
+    <div class="nk-sidebar-element">
+        <div class="nk-sidebar-content">
+            <div class="nk-sidebar-menu" data-simplebar>
+                <ul class="nk-menu">
 
           <!-- Dashboard -->
           <li class="nk-menu-heading">

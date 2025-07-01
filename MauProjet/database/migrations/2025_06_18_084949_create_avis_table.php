@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('annonce_id')->constrained('annonces');
-            $table->boolean('signale')->default(false);
+            $table->boolean('masque')->default(false);
             $table->timestamps();
         });
     }

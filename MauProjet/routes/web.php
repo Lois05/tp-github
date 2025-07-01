@@ -16,15 +16,13 @@ use App\Http\Controllers\ProfileController;
 Route::prefix('admin')->name('admin.')->group(function () {
     // Tableau de bord admin
     Route::get('/', [AdminHomeController::class, 'index'])->name('index');
-
-    // Gestion des entités
+ // <-- ajouter name('index')
     Route::resource('biens', BienController::class);
-    Route::resource('categorie-bien', CategorieController::class)->parameters([
-        'categorie-bien' => 'categorie'
-    ]);
+    Route::resource('categorie-bien', CategorieController::class)->parameters(['categorie-bien' => 'categorie']);
     Route::resource('annonces', AnnonceController::class);
     Route::resource('avis', AvisController::class)->only(['index', 'show', 'destroy']);
-    Route::resource('users', UserController::class);
+    Route::patch('/avis/{avis}/toggle', [AvisController::class, 'toggleMasque'])->name('admin.avis.toggle');
+    Route::get('/avis/masques', [AvisController::class, 'masques'])->name('admin.avis.masques');
 
     // Route spécifique pour bloquer/débloquer un utilisateur (PATCH)
     Route::patch('users/{user}/toggle-block', [UserController::class, 'toggleBlock'])->name('users.toggleBlock');
