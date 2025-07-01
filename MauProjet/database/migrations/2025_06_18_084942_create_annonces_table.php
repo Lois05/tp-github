@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
+            $table->string('titre');
             $table->string('localisation');
             $table->float('prix');
             $table->enum('statut', ['en_attente', 'validee', 'rejetee'])->default('en_attente');

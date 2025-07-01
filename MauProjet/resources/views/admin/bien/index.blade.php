@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <a href="{{ route('admin.bien.create') }}" class="btn btn-primary mb-3">Ajouter un Bien</a>
+    <a href="{{ route('admin.biens.create') }}" class="btn btn-primary mb-3">Ajouter un Bien</a>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -29,9 +29,9 @@
 
                     <td>{{ $bien->categorie->nom ?? 'Non défini' }}</td>
                     <td>
-                        <a href="{{ route('admin.bien.show', $bien) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ route('admin.bien.edit', $bien) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        <form action="{{ route('admin.bien.destroy', $bien) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce bien ?')">
+                        <a href="{{ route('admin.biens.show', $bien) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ route('admin.biens.edit', $bien) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <form action="{{ route('admin.biens.destroy', $bien) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce bien ?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Supprimer</button>

@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.bien.update', $bien) }}" method="POST">
+    <form action="{{ route('admin.biens.update', $bien) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -43,7 +43,7 @@
 
 
         <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button>
-        <a href="{{ route('admin.bien.index') }}" class="btn btn-secondary mt-3">Annuler</a>
+        <a href="{{ route('admin.biens.index') }}" class="btn btn-secondary mt-3">Annuler</a>
     </form>
 </div>
 @endsection

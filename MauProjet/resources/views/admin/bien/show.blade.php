@@ -18,9 +18,9 @@
             <p><strong>Mis à jour le :</strong> {{ $bien->updated_at->format('d/m/Y à H:i') }}</p>
 
             <div class="mt-4">
-                <a href="{{ route('admin.bien.edit', $bien) }}" class="btn btn-warning">Modifier</a>
-                <a href="{{ route('admin.bien.index') }}" class="btn btn-secondary">Retour</a>
-                <form action="{{ route('admin.bien.destroy', $bien) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce bien ?')">
+                <a href="{{ route('admin.biens.edit', $bien) }}" class="btn btn-warning">Modifier</a>
+                <a href="{{ route('admin.biens.index') }}" class="btn btn-secondary">Retour</a>
+                <form action="{{ route('admins.bien.destroy', $bien) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce bien ?')">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger">Supprimer</button>

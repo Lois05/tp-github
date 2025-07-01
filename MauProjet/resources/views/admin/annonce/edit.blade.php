@@ -12,6 +12,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
+            <p><strong>Titre :</strong> {{ $annonce->titre }}</p>
             <p><strong>Localisation :</strong> {{ $annonce->localisation }}</p>
             <p><strong>Prix :</strong> {{ number_format($annonce->prix, 0, ',', ' ') }} FCFA</p>
             <p><strong>Statut actuel :</strong>

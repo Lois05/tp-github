@@ -10,61 +10,47 @@
     </div>
 
     <!-- Cartes Statistiques -->
-    <div class="row g-gs">
-        <div class="col-md-3">
-            <div class="card card-bordered text-center bg-white">
-                <div class="card-inner">
-                    <em class="icon ni ni-home display-4 text-primary"></em>
-                    <h6>Annonces</h6>
-                    <h4>{{ $totalAnnonces }}</h4>
-                    <small>{{ $annoncesAttente }} en attente</small>
+    <div class="row g-4">
+        @php
+            $cards = [
+                ['icon' => 'ni-home', 'color' => 'primary', 'label' => 'Annonces', 'value' => $totalAnnonces, 'subtitle' => "$annoncesAttente en attente"],
+                ['icon' => 'ni-users', 'color' => 'info', 'label' => 'Utilisateurs', 'value' => $totalUtilisateurs, 'subtitle' => ''],
+                ['icon' => 'ni-folder-list', 'color' => 'success', 'label' => 'Catégories', 'value' => $totalCategories, 'subtitle' => ''],
+                ['icon' => 'ni-coin-alt', 'color' => 'warning', 'label' => 'Revenus (mois)', 'value' => number_format($revenuMensuel, 0, ',', ' ') . ' FCFA', 'subtitle' => '']
+            ];
+        @endphp
+
+        @foreach($cards as $card)
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-bordered text-center bg-white h-100 shadow-sm">
+                <div class="card-inner py-4">
+                    <em class="icon ni {{ $card['icon'] }} display-4 text-{{ $card['color'] }}"></em>
+                    <h6 class="mt-3">{{ $card['label'] }}</h6>
+                    <h4 class="fw-bold mt-1">{{ $card['value'] }}</h4>
+                    @if($card['subtitle'])
+                    <small class="text-muted">{{ $card['subtitle'] }}</small>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card card-bordered text-center bg-white">
-                <div class="card-inner">
-                    <em class="icon ni ni-users display-4 text-info"></em>
-                    <h6>Utilisateurs</h6>
-                    <h4>{{ $totalUtilisateurs }}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card card-bordered text-center bg-white">
-                <div class="card-inner">
-                    <em class="icon ni ni-folder-list display-4 text-success"></em>
-                    <h6>Catégories</h6>
-                    <h4>{{ $totalCategories }}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card card-bordered text-center bg-white">
-                <div class="card-inner">
-                    <em class="icon ni ni-coin-alt display-4 text-warning"></em>
-                    <h6>Revenus (mois)</h6>
-                    <h4>{{ number_format($revenuMensuel, 0, ',', ' ') }} FCFA</h4>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <!-- Graphiques -->
-    <div class="row mt-4">
+    <div class="row g-4 mt-2">
         <div class="col-md-6">
-            <div class="card card-bordered">
+            <div class="card card-bordered shadow-sm">
                 <div class="card-inner">
-                    <h6>Évolution des locations</h6>
-                    <canvas id="chartLocations"></canvas>
+                    <h6 class="mb-3">Évolution des locations</h6>
+                    <canvas id="chartLocations" height="200"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card card-bordered">
+            <div class="card card-bordered shadow-sm">
                 <div class="card-inner">
-                    <h6>Répartition des biens</h6>
-                    <canvas id="chartBiens"></canvas>
+                    <h6 class="mb-3">Répartition des biens</h6>
+                    <canvas id="chartBiens" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -81,21 +67,33 @@
             labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai'],
             datasets: [{
                 label: 'Locations',
-                data: [5, 10, 7, 14, 20], // Tu pourras rendre cela dynamique plus tard avec JSON
-                borderColor: 'blue',
-                fill: false
+                data: [5, 10, 7, 14, 20],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59,130,246,0.1)',
+                tension: 0.4,
+                fill: true
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
         }
     });
 
     new Chart(document.getElementById('chartBiens'), {
         type: 'pie',
         data: {
-            labels: ['Appartements', 'Maisons', 'Véhicules'],
+            labels: ['Électroménagers', 'Véhicules', 'Divers'],
             datasets: [{
-                data: [45, 30, 25], // À remplacer par des données réelles si besoin
-                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
+                data: [45, 30, 25],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+                borderWidth: 1
             }]
+        },
+        options: {
+            responsive: true
         }
     });
 </script>

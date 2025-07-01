@@ -9,10 +9,10 @@
     </div>
     <div class="nk-menu-trigger me-n2">
       <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu">
-        <em class="icon ni ni-arrow-left"></em>
+        <i class="fas fa-arrow-left"></i>
       </a>
       <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu">
-        <em class="icon ni ni-menu"></em>
+        <i class="fas fa-bars"></i>
       </a>
     </div>
   </div>
@@ -28,7 +28,7 @@
           </li>
           <li class="nk-menu-item">
             <a href="{{ route('admin.index') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
+              <span class="nk-menu-icon"><i class="fas fa-tachometer-alt"></i></span>
               <span class="nk-menu-text">Tableau de bord</span>
             </a>
           </li>
@@ -37,68 +37,58 @@
           <li class="nk-menu-heading">
             <h6 class="overline-title text-primary-alt">Annonces</h6>
           </li>
-          <li class="nk-menu-item has-sub">
-            <a href="#" class="nk-menu-link nk-menu-toggle">
-              <span class="nk-menu-icon"><em class="icon ni ni-megaphone-fill"></em></span>
-              <span class="nk-menu-text">Gestion des Annonces</span>
+          <li class="nk-menu-item">
+            <a href="{{ route('admin.annonces.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><i class="fas fa-bullhorn"></i></span>
+              <span class="nk-menu-text">Gestion des annonces</span>
             </a>
-            <ul class="nk-menu-sub">
-              <li class="nk-menu-item">
-                <a href="{{ route('admin.annonce.index') }}" class="nk-menu-link">Toutes les annonces</a>
-              </li>
-              <li class="nk-menu-item">
-                <a href="{{ route('admin.annonce.create') }}" class="nk-menu-link">Ajouter une annonce</a>
-              </li>
-            </ul>
           </li>
 
           <!-- Catégories -->
           <li class="nk-menu-item">
             <a href="{{ route('admin.categorie-bien.index') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-list-thumb"></em></span>
+              <span class="nk-menu-icon"><i class="fas fa-th-list"></i></span>
               <span class="nk-menu-text">Catégories de biens</span>
             </a>
           </li>
 
           <!-- Biens -->
           <li class="nk-menu-item">
-            <a href="{{ route('admin.bien.index') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
+            <a href="{{ route('admin.biens.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><i class="fas fa-boxes"></i></span>
               <span class="nk-menu-text">Biens disponibles</span>
             </a>
           </li>
 
-          <!-- Modules à venir -->
-          <li class="nk-menu-heading">
-            <h6 class="overline-title text-primary-alt">À venir</h6>
-          </li>
-
-          <li class="nk-menu-item">
-            <a href="#" class="nk-menu-link disabled" title="En développement">
-              <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-              <span class="nk-menu-text">Gestion utilisateurs</span>
-            </a>
-          </li>
-
-          <li class="nk-menu-item">
-            <a href="#" class="nk-menu-link disabled" title="En développement">
-              <span class="nk-menu-icon"><em class="icon ni ni-wallet"></em></span>
-              <span class="nk-menu-text">Paiements & commissions</span>
-            </a>
-          </li>
-
-          <!-- Signalements -->
+          <!-- Avis -->
           <li class="nk-menu-item">
             <a href="{{ route('admin.avis.index') }}" class="nk-menu-link">
-              <span class="nk-menu-icon"><em class="icon ni ni-alert-circle"></em></span>
+              <span class="nk-menu-icon"><i class="fas fa-comments"></i></span>
+              <span class="nk-menu-text">Avis</span>
+            </a>
+          </li>
+
+          <!-- Signalements (désactivé pour l’instant) -->
+          <li class="nk-menu-item">
+            <a href="#" class="nk-menu-link">
+              <span class="nk-menu-icon"><i class="fas fa-exclamation-triangle"></i></span>
               <span class="nk-menu-text">Signalements</span>
             </a>
           </li>
 
+          <!-- Statistiques (désactivé pour l’instant) -->
           <li class="nk-menu-item">
-            <a href="#" class="nk-menu-link disabled" title="En développement">
-              <span class="nk-menu-icon"><em class="icon ni ni-chart-bar"></em></span>
+            <a href="#" class="nk-menu-link">
+              <span class="nk-menu-icon"><i class="fas fa-chart-bar"></i></span>
               <span class="nk-menu-text">Statistiques</span>
+            </a>
+          </li>
+
+          <!-- Utilisateurs -->
+          <li class="nk-menu-item">
+            <a href="{{ route('admin.users.index') }}" class="nk-menu-link">
+              <span class="nk-menu-icon"><i class="fas fa-users"></i></span>
+              <span class="nk-menu-text">Gestion utilisateurs</span>
             </a>
           </li>
 
@@ -107,4 +97,3 @@
     </div>
   </div>
 </div>
-

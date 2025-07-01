@@ -9,7 +9,7 @@ class Annonce extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['localisation', 'prix', 'statut', 'bien_id', 'proprietaire_id'];
+    protected $fillable = ['titre', 'localisation', 'prix', 'statut', 'bien_id', 'proprietaire_id'];
 
     public function bien()
     {
