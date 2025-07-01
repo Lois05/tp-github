@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avis;
+use App\Models\Annonce;
 use Illuminate\Http\Request;
 
 class AvisController extends Controller
@@ -13,11 +14,9 @@ class AvisController extends Controller
      */
     public function index()
     {
-        $avis = Avis::where('signale', true)->with(['annonce', 'user'])->latest()->get();
-
-        return view('admin.avis.index', compact('avis'));
+        $annonces = Annonce::with(['avis.user'])->get(); // charge les avis de chaque annonce
+        return view('admin.avis.index', compact('annonces'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -43,6 +42,11 @@ class AvisController extends Controller
         return view('admin.avis.show', compact('avis'));
     }
 
+    public function masques()
+    {
+        $avis = Avis::where('masque', true)->with(['annonce', 'user'])->latest()->get();
+        return view('admin.avis.masque', compact('avis'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -65,7 +69,14 @@ class AvisController extends Controller
      */
     public function destroy(Avis $avis)
     {
-        $avis->delete();
-        return redirect()->route('admin.avis.index')->with('success', 'Avis supprimé avec succès.');
+        //
+    }
+
+    public function toggleMasque(Avis $avis)
+    {
+        $avis->masque = !$avis->masque;
+        $avis->save();
+
+        return back()->with('success', 'Statut de visibilité mis à jour.');
     }
 }

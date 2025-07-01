@@ -14,7 +14,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('bien', BienController::class);
     Route::resource('categorie-bien', CategorieController::class)->parameters(['categorie-bien' => 'categorie']);
     Route::resource('annonce', AnnonceController::class);
-    Route::resource('avis', AvisController::class)->only(['index', 'show', 'destroy']);
+    Route::resource('avis', AvisController::class)->only(['index', 'show', 'masque']);
+    Route::patch('/avis/{avis}/toggle', [AvisController::class, 'toggleMasque'])->name('admin.avis.toggle');
+    Route::get('/avis/masques', [AvisController::class, 'masques'])->name('admin.avis.masques');
 
 });
 
