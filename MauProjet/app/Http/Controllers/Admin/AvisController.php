@@ -14,9 +14,17 @@ class AvisController extends Controller
      */
     public function index()
     {
-        $annonces = Annonce::with(['avis.user'])->get(); // charge les avis de chaque annonce
+        // Récupérer les annonces qui ont des avis, triées par le nombre d'avis (desc)
+        $annonces = \App\Models\Annonce::withCount('avis') // ajoute un champ `avis_count`
+            ->whereHas('avis') // uniquement celles qui ont au moins un avis
+            ->with(['avis.user']) // charger les relations
+            ->orderByDesc('avis_count') // trier par nombre d’avis décroissant
+            ->get();
+
         return view('admin.avis.index', compact('annonces'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,9 +52,14 @@ class AvisController extends Controller
 
     public function masques()
     {
-        $avis = Avis::where('masque', true)->with(['annonce', 'user'])->latest()->get();
-        return view('admin.avis.masque', compact('avis'));
+        $avisMasques = Avis::where('signale', true)
+            ->where('statut', 'masqué') // si tu as un champ statut par exemple
+            ->with(['user', 'annonce'])
+            ->get();
+
+        return view('admin.avis.masques', compact('avisMasques'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -72,11 +85,13 @@ class AvisController extends Controller
         //
     }
 
-    public function toggleMasque(Avis $avis)
+    public function toggle(Avis $avis)
     {
+        // Bascule la valeur de "masque" ou crée la colonne si tu utilises "signale"
         $avis->masque = !$avis->masque;
         $avis->save();
 
-        return back()->with('success', 'Statut de visibilité mis à jour.');
+        return redirect()->back()->with('success', 'Statut de l\'avis mis à jour.');
     }
+
 }

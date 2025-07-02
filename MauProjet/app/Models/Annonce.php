@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Avis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -21,4 +22,10 @@ class Annonce extends Model
         return $this->belongsTo(Proprietaire::class, 'proprietaire_id');
     }
     //
+    public function avis()
+    {
+        return $this->hasMany(\App\Models\Avis::class);
+    }
+
+
 }

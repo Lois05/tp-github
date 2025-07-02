@@ -9,7 +9,7 @@ class Avis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['note', 'date', 'commentaire', 'user_id', 'annonce_id'];
+    protected $fillable = ['note', 'date', 'commentaire', 'user_id', 'annonce_id', 'masque'];
 
     public function user()
     {
