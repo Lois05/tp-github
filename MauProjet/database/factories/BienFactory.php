@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Bien;
@@ -12,10 +13,12 @@ class BienFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom' => $this->faker->word(),
+            'nom' => $this->faker->words(3, true),
             'description' => $this->faker->paragraph(),
             'categorie_id' => Categorie::factory(),
+            'etat' => $this->faker->randomElement(['disponible', 'loué']),
         ];
     }
 }
+
 

@@ -18,6 +18,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminHomeController::class, 'index'])->name('index');
  // <-- ajouter name('index')
     Route::resource('biens', BienController::class);
+    Route::patch('biens/{bien}/toggle-etat', [BienController::class, 'toggleEtat'])->name('biens.toggleEtat');
     Route::resource('categorie-bien', CategorieController::class)->parameters(['categorie-bien' => 'categorie']);
     Route::resource('annonces', AnnonceController::class);
     Route::resource('avis', AvisController::class)->only(['index', 'show', 'masque']);

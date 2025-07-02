@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 class CategorieController extends Controller
 {
     public function index()
-    {
-        $categories = Categorie::all();
-        return view('admin.categorie_bien.index', compact('categories'));
-    }
+{
+    $categories = Categorie::paginate(10); // paginate 10 par page
+
+    return view('admin.categorie_bien.index', compact('categories'));
+}
+
 
     public function create()
     {

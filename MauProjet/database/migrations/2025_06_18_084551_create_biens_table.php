@@ -6,25 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->longText('description');
-            $table->foreignId('categorie_id')->nullable()->constrained('categories');
+            $table->foreignId('categorie_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->string('etat')->default('disponible'); // <-- Ajouté ici
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('biens');
     }
 };
+

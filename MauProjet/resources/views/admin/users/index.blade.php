@@ -54,29 +54,25 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm">Éditer</a>
+    <div class="btn-group" role="group" aria-label="Actions utilisateur">
+        <a href="{{ route('admin.users.show', $user) }}" class="btn btn-outline-info btn-sm" title="Voir le profil">
+            <i class="fas fa-eye"></i>
+        </a>
+        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-warning btn-sm" title="Modifier">
+            <i class="fas fa-edit"></i>
+        </a>
+        <form action="{{ route('admin.users.toggleBlock', $user) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir {{ $user->is_blocked ? 'débloquer' : 'bloquer' }} cet utilisateur ?')">
+            @csrf
+            @method('PATCH')
+            <button type="submit"
+                class="btn btn-outline-{{ $user->is_blocked ? 'success' : 'danger' }} btn-sm"
+                title="{{ $user->is_blocked ? 'Débloquer' : 'Bloquer' }}">
+                <i class="fas fa-user-{{ $user->is_blocked ? 'check' : 'slash' }}"></i>
+            </button>
+        </form>
+    </div>
+</td>
 
-                    {{-- Formulaire blocage/déblocage --}}
-                    <form action="{{ route('admin.users.toggleBlock', $user) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn btn-{{ $user->is_blocked ? 'success' : 'danger' }} btn-sm"
-                            onclick="return confirm('Êtes-vous sûr de vouloir {{ $user->is_blocked ? 'débloquer' : 'bloquer' }} cet utilisateur ?')">
-                            {{ $user->is_blocked ? 'Débloquer' : 'Bloquer' }}
-                        </button>
-                    </form>
-
-                    {{-- Formulaire suppression --}}
-                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                            Supprimer
-                        </button>
-                    </form>
-                </td>
             </tr>
             @empty
             <tr>
