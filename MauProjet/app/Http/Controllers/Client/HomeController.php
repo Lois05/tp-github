@@ -8,12 +8,17 @@ use App\Models\Annonce;  // Import du modèle Annonce
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        // Récupérer les 6 dernières annonces (ajuste selon ta logique)
-        $annonces = Annonce::latest()->take(6)->get();
+   public function index()
+{
+    // Vue d'accueil, par ex 6 annonces récentes
+    $annonces = Annonce::where('statut', 'validee')->latest()->take(6)->get();
+    return view('client.index', compact('annonces'));
+}
 
-        // Passer les annonces à la vue
-        return view('client.index', compact('annonces'));
-    }
+public function annonces()
+{
+    // Toutes les annonces paginées
+    $annonces = Annonce::where('statut', 'validee')->latest()->paginate(12);
+    return view('client.annonces', compact('annonces'));
+}
 }
