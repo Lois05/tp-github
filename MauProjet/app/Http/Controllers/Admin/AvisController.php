@@ -12,17 +12,49 @@ class AvisController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Récupérer les annonces qui ont des avis, triées par le nombre d'avis (desc)
-        $annonces = \App\Models\Annonce::withCount('avis') // ajoute un champ `avis_count`
-            ->whereHas('avis') // uniquement celles qui ont au moins un avis
-            ->with(['avis.user']) // charger les relations
-            ->orderByDesc('avis_count') // trier par nombre d’avis décroissant
+        $filtre = $request->query('filtre');
+        $search = $request->query('search');
+
+        $annonces = \App\Models\Annonce::whereHas('avis', function ($query) use ($filtre, $search) {
+            if ($filtre === 'masques') {
+                $query->where('masque', true);
+            } elseif ($filtre === 'affiches') {
+                $query->where('masque', false);
+            }
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('user', function ($u) use ($search) {
+                        $u->where('nom', 'like', "%{$search}%");
+                    })
+                        ->orWhere('commentaire', 'like', "%{$search}%");
+                });
+            }
+        })
+            ->with([
+                'avis' => function ($query) use ($filtre, $search) {
+                    $query->with('user')
+                        ->when($filtre === 'masques', fn($q) => $q->where('masque', true))
+                        ->when($filtre === 'affiches', fn($q) => $q->where('masque', false))
+                        ->when($search, function ($q) use ($search) {
+                            $q->where(function ($inner) use ($search) {
+                                $inner->whereHas('user', fn($u) => $u->where('nom', 'like', "%{$search}%"))
+                                    ->orWhere('commentaire', 'like', "%{$search}%");
+                            });
+                        })
+                        ->latest();
+                }
+            ])
+            ->withCount('avis')
+            ->latest()
             ->get();
 
         return view('admin.avis.index', compact('annonces'));
     }
+
+
 
 
 
