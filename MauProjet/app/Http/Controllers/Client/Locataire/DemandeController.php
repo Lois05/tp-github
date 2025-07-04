@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers\Client\Locataire;
 
-
 use App\Http\Controllers\Controller;
-use App\Models\Annonce;
 use Illuminate\Http\Request;
+use App\Models\DemandeLocation;
 
 class DemandeController extends Controller
 {
-    public function create($annonceId)
+    // Affichage du formulaire
+    public function create($annonce_id)
     {
-        $annonce = Annonce::findOrFail($annonceId);
-        return view('locataire.demande.create', compact('annonce'));
+        return view('client.locataire.demande.create', compact('annonce_id'));
     }
 
-    public function store(Request $request)
+    // Traitement du formulaire
+    public function store(Request $request, $annonce)
     {
         $request->validate([
-            'annonce_id' => 'required|exists:annonces,id',
             'nom' => 'required|string|max:255',
-            'email' => 'required|email',
+            'telephone' => 'required|string|max:20',
             'message' => 'nullable|string',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date|after_or_equal:date_debut',
         ]);
 
-        // Ici tu peux créer la demande en base si tu as un modèle Demande
-        // Par exemple :
-        // Demande::create([
-        //     'annonce_id' => $request->annonce_id,
-        //     'nom' => $request->nom,
-        //     'email' => $request->email,
-        //     'message' => $request->message,
-        // ]);
+        DemandeLocation::create([
+            'annonce_id' => $annonce,
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'message' => $request->message,
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->date_fin,
+        ]);
 
-        // Pour l’instant, juste une redirection avec succès
-        return redirect()->route('client.home')->with('success', 'Votre demande a été envoyée avec succès.');
+        return redirect()->route('client.annonces.index')->with('success', 'Votre demande a été envoyée avec succès.');
     }
 }
