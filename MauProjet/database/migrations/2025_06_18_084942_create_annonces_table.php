@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('localisation');
+            $table->text('description');
             $table->float('prix');
             $table->enum('statut', ['en_attente', 'validee', 'rejetee'])->default('en_attente');
-            $table->foreignId('bien_id')->constrained('biens');
-            $table->foreignId('proprietaire_id')->constrained('proprietaires');
+            $table->foreignId('bien_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // <= ici
+
             $table->timestamps();
         });
     }

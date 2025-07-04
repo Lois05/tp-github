@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Annonce;
 use App\Models\Bien;
-use App\Models\Proprietaire;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AnnonceFactory extends Factory
@@ -13,14 +13,22 @@ class AnnonceFactory extends Factory
 
     public function definition(): array
     {
-        return [
-            'titre' => $this->faker->sentence(3),
-            'localisation' => $this->faker->city(),
-            'prix' => $this->faker->randomFloat(2, 1000, 100000),
-            'statut' => $this->faker->randomElement(['en_attente', 'validee', 'rejetee']),
-            'bien_id' => Bien::factory(),
-            'proprietaire_id' => Proprietaire::factory(),
+        $faker = $this->faker;
 
+        // Sélectionne uniquement un utilisateur qui est aussi propriétaire
+        $user = User::whereHas('proprietaire')->inRandomOrder()->first();
+
+        // Sélectionne un bien existant aléatoirement
+        $bien = Bien::inRandomOrder()->first();
+
+        return [
+            'titre' => $faker->sentence,
+            'description' => $faker->paragraph,
+            'prix' => $faker->numberBetween(1000, 50000),
+            'statut' => $faker->randomElement(['validee', 'en_attente']),
+            'localisation' => $faker->city,
+            'user_id' => $user?->id, // NULL-safe en cas d'absence de user
+            'bien_id' => $bien?->id,
         ];
     }
 }

@@ -13,10 +13,11 @@ class BienFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom' => $this->faker->words(3, true),
-            'description' => $this->faker->paragraph(),
-            'categorie_id' => Categorie::factory(),
+            'nom' => $this->faker->word,
             'etat' => $this->faker->randomElement(['disponible', 'loué']),
+            'description' => $this->faker->paragraph(2),
+
+            'categorie_id' => Categorie::factory(),
         ];
     }
 }

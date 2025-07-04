@@ -48,4 +48,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function proprietaire()
+{
+    return $this->hasOne(Proprietaire::class);
+}
+public function locataire()
+{
+    return $this->hasOne(Locataire::class);
+}
+
+
 }

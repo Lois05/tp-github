@@ -22,11 +22,12 @@ class HomeController extends Controller
         return view('client.annonces.index', compact('annonces'));
     }
 
-    public function showAnnonce($id)
-    {
-        $annonce = Annonce::findOrFail($id);
-        return view('client.annonces.show', compact('annonce'));
-    }
+ public function showAnnonce($id)
+{
+    $annonce = Annonce::with(['bien.categorie', 'user'])->findOrFail($id);
+
+    return view('client.annonces.show', compact('annonce'));
+}
 
     public function contact()
     {

@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->longText('description');
+            $table->text('description');
             $table->foreignId('categorie_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->string('etat')->default('disponible'); // <-- Ajouté ici
             $table->timestamps();
