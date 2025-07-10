@@ -73,6 +73,16 @@
   </div>
 </section>
 
+<div class="text-center mt-5">
+    <a href="{{ route('client.annonce.create') }}" class="btn btn-primary">
+        Publier une annonce
+    </a>
+
+
+    <p class="text-muted mt-2 small">Touchez des milliers de locataires potentiels dès maintenant</p>
+</div>
+
+
 
 <!-- À propos -->
 <section class="about-section py-5 bg-light">

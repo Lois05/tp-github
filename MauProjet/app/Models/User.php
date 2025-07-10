@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+// Ajoute ces imports en fonction de la structure de ton projet
+use App\Models\Annonce;
+use App\Models\DemandeLocation;
+use App\Models\Avis;
+use App\Models\Proprietaire;
+use App\Models\Locataire;
+
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'username',
         'nom',
@@ -26,21 +26,11 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -48,14 +38,29 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function proprietaire()
+    {
+        return $this->hasOne(Proprietaire::class);
+    }
+
+    public function locataire()
+    {
+        return $this->hasOne(Locataire::class);
+    }
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
+    }
+
+ public function demandes()
 {
-    return $this->hasOne(Proprietaire::class);
-}
-public function locataire()
-{
-    return $this->hasOne(Locataire::class);
+    return $this->hasMany(DemandeLocation::class, 'locataire_id');
 }
 
-
+    public function avisRecus()
+    {
+        return $this->hasMany(Avis::class, 'user_id'); // adapte la clé étrangère si besoin
+    }
 }

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('date_debut');
             $table->date('date_fin');
-            $table->string('statut');
+            $table->enum('statut', ['en_attente', 'acceptee', 'refusee'])->default('en_attente');
+
             $table->foreignId('bien_id')->constrained('biens');
             $table->foreignId('locataire_id')->constrained('locataires');
             $table->timestamps();

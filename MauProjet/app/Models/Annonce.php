@@ -12,6 +12,7 @@ class Annonce extends Model
 
     protected $fillable = [
         'titre',
+        'localisation',
         'description',
         'prix',
         'statut',

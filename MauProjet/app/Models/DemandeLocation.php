@@ -16,10 +16,11 @@ class DemandeLocation extends Model
         return $this->belongsTo(Bien::class, 'id_bien');
     }
 
-    public function locataire()
-    {
-        return $this->belongsTo(Locataire::class, 'locataire_id');
-    }
+   public function locataire()
+{
+    return $this->belongsTo(User::class, 'locataire_id');
+}
+
 
     public function paiement()
     {

@@ -14,7 +14,7 @@ class AdminFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'matricule' => strtoupper($this->faker->bothify('ADM###')),
+            'matricule' => $this->faker->unique()->bothify('ADM###'),
         ];
     }
 }

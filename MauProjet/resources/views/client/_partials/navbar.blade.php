@@ -10,7 +10,20 @@
         <li class="nav-item"><a href="{{ route('client.annonces.index') }}" class="nav-link {{ request()->routeIs('client.annonces.*') ? 'active' : '' }}">Annonces</a></li>
         <li class="nav-item"><a href="{{ route('client.about') }}#about-section" class="nav-link">À propos</a></li>
         <li class="nav-item"><a href="{{ route('client.contact') }}" class="nav-link {{ request()->routeIs('client.contact') ? 'active' : '' }}">Contact</a></li>
-        <li class="nav-item ms-lg-3"><a href="{{ route('login') }}" class="btn btn-outline-primary px-4 py-2">Connexion</a></li>
+@auth
+  <li class="nav-item ms-lg-3">
+    <a href="{{ route('client.dashboard') }}" class="nav-link {{ request()->routeIs('client.dashboard') ? 'active' : '' }}">Profil</a>
+
+
+    </a>
+  </li>
+@else
+  <li class="nav-item ms-lg-3">
+    <a href="{{ route('auth.page') }}" class="btn btn-outline-primary px-4 py-2">Connexion/Inscription</a>
+  </li>
+@endauth
+
+
       </ul>
     </div>
   </div>

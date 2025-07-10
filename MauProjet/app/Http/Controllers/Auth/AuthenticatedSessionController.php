@@ -12,36 +12,35 @@ use Illuminate\View\View;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Affiche la page de connexion personnalisée.
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('auth.custom-auth'); // Remplace par ta vue unifiée Connexion / Inscription
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Gère la tentative de connexion.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticate(); // Tente de se connecter
 
-        $request->session()->regenerate();
+        $request->session()->regenerate(); // Sécurité : régénérer la session
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard')); // Redirige vers la page voulue, ou dashboard par défaut
     }
 
     /**
-     * Destroy an authenticated session.
+     * Déconnecte l'utilisateur.
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/'); // Redirection après déconnexion
     }
 }

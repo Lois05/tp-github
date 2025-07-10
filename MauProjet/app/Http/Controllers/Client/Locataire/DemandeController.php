@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client\Locataire;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DemandeLocation;
+use Illuminate\Support\Facades\Auth;
 
 class DemandeController extends Controller
 {
@@ -32,8 +33,10 @@ class DemandeController extends Controller
             'message' => $request->message,
             'date_debut' => $request->date_debut,
             'date_fin' => $request->date_fin,
+            'user_id' => Auth::id(),
+
         ]);
 
-        return redirect()->route('client.annonces.index')->with('success', 'Votre demande a été envoyée avec succès.');
+        return redirect()->route('client.dashboard')->with('success', 'Demande envoyée avec succès. En attente de validation.');
     }
 }
