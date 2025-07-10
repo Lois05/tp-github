@@ -80,7 +80,7 @@
 
                     <!-- Statistiques (désactivé pour l’instant) -->
                     <li class="nk-menu-item">
-                        <a href="#" class="nk-menu-link">
+                        <a href="{{ route('admin.statistiques.index') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><i class="fas fa-chart-bar"></i></span>
                             <span class="nk-menu-text">Statistiques</span>
                         </a>

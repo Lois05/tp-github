@@ -7,7 +7,8 @@ use App\Http\Controllers\Admin\{
     BienController,
     CategorieController,
     HomeController as AdminHomeController,
-    UserController
+    UserController,
+    StatistiqueController
 };
 use App\Http\Controllers\Auth\CustomAuthController;
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Client\Locataire\LocationController;
 | PARTIE PUBLIQUE – CLIENT (site vitrine LocaPlus)
 |--------------------------------------------------------------------------
 */
+
 Route::name('client.')->group(function () {
     Route::get('/', [ClientHomeController::class, 'index'])->name('home');
     Route::get('/contact', [ClientHomeController::class, 'contact'])->name('contact');
@@ -35,9 +37,9 @@ Route::name('client.')->group(function () {
 });
 
 
-   Route::middleware(['auth'])->prefix('client')->name('client.')->group(function () {
-      Route::get('/publier-annonce', [ClientAnnonceController::class, 'create'])->name('annonce.create');
-      Route::post('/publier-annonce', [ClientAnnonceController::class, 'store'])->name('annonce.store');
+Route::middleware(['auth'])->prefix('client')->name('client.')->group(function () {
+    Route::get('/publier-annonce', [ClientAnnonceController::class, 'create'])->name('annonce.create');
+    Route::post('/publier-annonce', [ClientAnnonceController::class, 'store'])->name('annonce.store');
 });
 
 /*
@@ -49,7 +51,6 @@ Route::prefix('locataire')->name('locataire.')->group(function () {
     // Demande de location
     Route::get('demande/create/{annonce}', [DemandeController::class, 'create'])->name('demande.create');
     Route::post('demande/store/{annonce}', [DemandeController::class, 'store'])->name('demande.store');
-
 });
 
 
@@ -82,6 +83,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Utilisateurs
     Route::resource('users', UserController::class);
     Route::patch('users/{user}/toggle-block', [UserController::class, 'toggleBlock'])->name('users.toggleBlock');
+
+    // Statistiques
+    Route::get('/statistiques', [StatistiqueController::class, 'index'])->name('statistiques.index');
+    Route::get('statistiques/annonces-mensuelles', [StatistiqueController::class, 'annoncesMensuelles']);
+    Route::get('statistiques/{type}/details', [StatistiqueController::class, 'detailsParMois']);
+    Route::get('statistiques/biens-mensuels', [StatistiqueController::class, 'biensMensuels']);
+
+
 });
 
 /*
@@ -90,7 +99,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -120,4 +129,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

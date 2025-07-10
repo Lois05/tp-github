@@ -8,17 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
         content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
+
+    <!-- Icon Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- ✅ Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Page Title  -->
-    <title>Blank - Layout | DashLite Admin Template</title>
+    <title>@yield('title', 'Admin Dashboard')</title>
 
-    <!-- StyleSheets  -->
+    <!-- Autres feuilles de style personnalisées -->
     @include('_partials.stylesheet')
 </head>
 
@@ -29,11 +33,13 @@
             <!-- sidebar @s -->
             @include('_partials.sidebar')
             <!-- sidebar @e -->
+
             <!-- wrap @s -->
             <div class="nk-wrap ">
                 <!-- main header @s -->
                 @include('_partials.header')
                 <!-- main header @e -->
+
                 <!-- content @s -->
                 <div class="nk-content ">
                     <div class="container-fluid">
@@ -45,6 +51,7 @@
                     </div>
                 </div>
                 <!-- content @e -->
+
                 <!-- footer @s -->
                 @include('_partials.footer')
                 <!-- footer @e -->
@@ -54,11 +61,16 @@
         <!-- main @e -->
     </div>
     <!-- app-root @e -->
-    <!-- select region modal -->
+
+    <!-- Modales -->
     @yield('modal')
-    <!-- .modal -->
-    <!-- JavaScript -->
+
+    <!-- ✅ Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts supplémentaires -->
     @include('_partials.script')
+    @stack('scripts')
 </body>
 
 </html>
