@@ -89,6 +89,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('statistiques/annonces-mensuelles', [StatistiqueController::class, 'annoncesMensuelles']);
     Route::get('statistiques/{type}/details', [StatistiqueController::class, 'detailsParMois']);
     Route::get('statistiques/biens-mensuels', [StatistiqueController::class, 'biensMensuels']);
+    Route::get('statistiques/utilisateurs-mensuels', [StatistiqueController::class, 'utilisateursMensuels']);
+    Route::get('statistiques/avis-mensuels', [StatistiqueController::class, 'avisMensuels']);
+    Route::get('statistiques/revenus-mensuels', [StatistiqueController::class, 'revenusMensuels']);
+
+
+
 
 
 });
