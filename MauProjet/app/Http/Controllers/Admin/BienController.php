@@ -10,25 +10,27 @@ use Illuminate\Http\Request;
 class BienController extends Controller
 {
     public function index(Request $request)
-{
-    $query = Bien::with('categorie');
+    {
+        // Charge les deux relations
+        $query = Bien::with(['categorie', 'proprietaire']);
 
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where('nom', 'like', "%{$search}%")
-              ->orWhereHas('categorie', function ($q) use ($search) {
-                  $q->where('nom', 'like', "%{$search}%");
-              });
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('nom', 'like', "%{$search}%")
+                ->orWhereHas('categorie', function ($q) use ($search) {
+                    $q->where('nom', 'like', "%{$search}%");
+                });
+        }
+
+        if ($request->filled('etat')) {
+            $query->where('etat', $request->etat);
+        }
+
+        $biens = $query->orderBy('created_at', 'asc')->paginate(10);
+
+        return view('admin.biens.index', compact('biens'));
     }
 
-    if ($request->filled('etat')) {
-        $query->where('etat', $request->etat);
-    }
-
-    $biens = $query->orderBy('created_at', 'asc')->paginate(10);
-
-    return view('admin.biens.index', compact('biens'));
-}
 
 
     public function create()
@@ -84,11 +86,10 @@ class BienController extends Controller
 
     // Nouvelle méthode pour changer le statut
     public function toggleEtat(Bien $bien)
-{
-    $bien->etat = $bien->etat === 'loué' ? 'disponible' : 'loué';
-    $bien->save();
+    {
+        $bien->etat = $bien->etat === 'loué' ? 'disponible' : 'loué';
+        $bien->save();
 
-    return redirect()->route('admin.biens.index')->with('success', 'Statut du bien mis à jour.');
-}
-
+        return redirect()->route('admin.biens.index')->with('success', 'Statut du bien mis à jour.');
+    }
 }

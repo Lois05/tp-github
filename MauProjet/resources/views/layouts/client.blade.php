@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+    
 @include('client._partials.header') {{-- Head + début de <body> --}}
 
 @include('client._partials.navbar')

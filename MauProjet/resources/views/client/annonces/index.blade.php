@@ -8,45 +8,51 @@
   <div>
     <h1>Louez tout ce dont vous avez besoin</h1>
     <p>LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
-    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
+    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir toutes les annonces</a>
   </div>
 </header>
 
 <section class="container py-5">
-  <h2 class="section-title text-center">Toutes les annonces</h2>
+  <h2 class="section-title text-center mb-5">Toutes les annonces disponibles</h2>
 
   <div class="annonces-grid">
-    @foreach($annonces as $annonce)
+    @forelse ($annonces as $annonce)
       <article class="annonce-card">
-        <img src="{{ asset('images/'.$annonce->image) }}" alt="Image de {{ $annonce->titre }}" class="annonce-img" />
+        <!-- Image -->
+        <img src="{{ $annonce->image ? asset('storage/'.$annonce->image) : asset('images/default.png') }}"
+             alt="{{ $annonce->titre }}" class="annonce-img" />
 
+        <!-- Favorite icon -->
+        <span class="favorite-icon">
+          <i class="bi bi-heart"></i>
+        </span>
+
+        <!-- Body -->
         <div class="annonce-body">
-          <h3 class="annonce-title">{{ $annonce->titre }}</h3>
+          <h5 class="annonce-title">{{ $annonce->titre }}</h5>
           <p class="price">{{ number_format($annonce->prix, 0, ',', ' ') }} F CFA</p>
 
-          {{-- Étoiles de notation (exemple avec 5 étoiles - ici statique, à adapter selon ta donnée) --}}
+          <!-- Stars -->
           <div class="stars">
-            @for ($i = 0; $i < 5; $i++)
-              <i class="bi bi-star-fill"></i>
-            @endfor
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
           </div>
 
-          {{-- Cœur favori (exemple statique) --}}
-          <div class="favorite-icon" style="position: absolute; top: 15px; right: 15px; cursor: pointer;">
-            <i class="bi bi-heart"></i>
-          </div>
-
-          <div class="d-flex justify-content-between mt-3">
-            <a href="{{ route('client.annonces.show', $annonce->id) }}" class="btn btn-outline-primary flex-grow-1 me-2">Voir</a>
-            <a href="{{ route('locataire.demande.create', $annonce->id) }}" class="btn btn-primary flex-grow-1">Louer</a>
-          </div>
+          <a href="{{ route('client.annonces.show', $annonce->id) }}" class="btn btn-louer mt-2">
+            Voir plus
+          </a>
         </div>
       </article>
-    @endforeach
+    @empty
+      <p class="text-center">Aucune annonce disponible pour le moment.</p>
+    @endforelse
   </div>
 
-  {{-- Pagination --}}
-  <div class="d-flex justify-content-center mt-4">
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-5">
     {{ $annonces->links() }}
   </div>
 </section>

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('nom');
             $table->text('description');
             $table->foreignId('categorie_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->foreignId('proprietaire_id')->constrained('proprietaires')->cascadeOnDelete();
             $table->string('etat')->default('disponible'); // <-- Ajouté ici
             $table->timestamps();
         });

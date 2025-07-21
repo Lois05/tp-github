@@ -13,17 +13,15 @@ class ProprietaireAnnonceController extends Controller
     /**
      * Liste toutes les annonces de l'utilisateur, même s'il n'est pas encore propriétaire.
      */
-    public function index()
-    {
-        $user = Auth::user();
+   public function index()
+{
+    $user = Auth::user();
 
-        // Si pas encore propriétaire, pas de blocage, juste liste vide
-        $annonces = $user->proprietaire
-            ? $user->proprietaire->annonces()->latest()->get()
-            : collect(); // Collection vide
+    // Récupère toutes ses annonces via user_id
+    $annonces = Annonce::where('user_id', $user->id)->latest()->get();
 
-        return view('client.proprietaire.mes_annonces.index', compact('annonces'));
-    }
+    return view('client.proprietaire.mes_annonces.index', compact('annonces'));
+}
 
     /**
      * Affiche le formulaire pour créer une nouvelle annonce.
@@ -59,7 +57,7 @@ class ProprietaireAnnonceController extends Controller
             'statut' => 'en_attente',
         ]);
 
-        return redirect()->route('client.proprietaire.annonces.index')
+        return redirect()->route('client.proprietaire.mes_annonces.index')
             ->with('success', 'Annonce créée et en attente de validation.');
     }
 
@@ -115,7 +113,7 @@ class ProprietaireAnnonceController extends Controller
             'categorie_id' => $request->categorie_id,
         ]);
 
-        return redirect()->route('client.proprietaire.annonces.index')
+        return redirect()->route('client.proprietaire.mes_annonces.index')
             ->with('success', 'Annonce mise à jour.');
     }
 
@@ -132,7 +130,7 @@ class ProprietaireAnnonceController extends Controller
 
         $annonce->delete();
 
-        return redirect()->route('client.proprietaire.annonces.index')
+        return redirect()->route('client.proprietaire.mes_annonces.index')
             ->with('success', 'Annonce supprimée.');
     }
 }

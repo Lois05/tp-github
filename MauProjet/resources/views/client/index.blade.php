@@ -1,15 +1,32 @@
 @extends('layouts.client')
 
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 @section('content')
 
-<!-- Hero Section -->
-<section class="hero d-flex align-items-center justify-content-center text-center text-white" style="background: linear-gradient(rgba(26,115,232,0.8), rgba(26,115,232,0.8)), url('{{ asset('images/hero-bg.jpg') }}') center/cover no-repeat; height: 80vh;">
-    <div class="container">
-        <h1 class="display-4 fw-bold">Louez tout ce dont vous avez besoin</h1>
-        <p class="lead mt-3">LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
-        <a href="{{ route('client.annonces.index') }}" class="btn btn-light btn-lg rounded-pill mt-4">Voir les annonces</a>
-    </div>
-</section>
+<!-- Hero Section (optionnel, tu peux l'ajouter ici aussi) -->
+<header class="hero">
+  <div>
+    <h1>Louez tout ce dont vous avez besoin</h1>
+    <p>LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
+    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
+  </div>
+</header>
+
 
 <!-- Services Section -->
 <section class="py-5 bg-light text-center">
@@ -73,14 +90,22 @@
   </div>
 </section>
 
-<div class="text-center mt-5">
-    <a href="{{ route('client.annonce.create') }}" class="btn btn-primary">
-        Publier une annonce
+
+
+
+<section class="publier annonce-section py-5 bg-light">
+  <div class="container text-center">
+    <p class="lead mb-4">
+      Vous avez des objets ou des biens que vous n'utilisez plus ? Vous souhaitez rentabiliser ces derniers ?<br>
+      Publiez une annonce et touchez un maximum de potentiels locataires intéressés par vos biens.
+    </p>
+    <a href="{{ route('client.annonce.create') }}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
+      Publier une annonce maintenant !
     </a>
+  </div>
+</section>
 
 
-    <p class="text-muted mt-2 small">Touchez des milliers de locataires potentiels dès maintenant</p>
-</div>
 
 
 

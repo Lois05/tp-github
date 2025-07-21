@@ -13,22 +13,14 @@ class AnnonceFactory extends Factory
 
     public function definition(): array
     {
-        $faker = $this->faker;
-
-        // Sélectionne uniquement un utilisateur qui est aussi propriétaire
-        $user = User::whereHas('proprietaire')->inRandomOrder()->first();
-
-        // Sélectionne un bien existant aléatoirement
-        $bien = Bien::inRandomOrder()->first();
-
         return [
-            'titre' => $faker->sentence,
-            'description' => $faker->paragraph,
-            'prix' => $faker->numberBetween(1000, 50000),
-            'statut' => $faker->randomElement(['validee', 'en_attente']),
-            'localisation' => $faker->city,
-            'user_id' => $user?->id, // NULL-safe en cas d'absence de user
-            'bien_id' => $bien?->id,
+            'titre' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'localisation' => $this->faker->city,
+            'prix' => $this->faker->numberBetween(1000, 50000),
+            'statut' => $this->faker->randomElement(['validee', 'en_attente']),
+            'user_id' => User::factory(),
+            'bien_id' => Bien::factory(), // ✅ Crée automatiquement un Bien lié
         ];
     }
 }

@@ -30,4 +30,23 @@ class Annonce extends Model
     {
         return $this->belongsTo(Bien::class, 'bien_id');
     }
+
+    public function demandes()
+    {
+        return $this->hasMany(DemandeLocation::class);
+    }
+
+    public function categorie()
+    {
+        return $this->bien ? $this->bien->categorie() : null;
+    }
+    public function proprietaire()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // ou Proprietaire si tu as une table Proprietaires
+    }
+
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
 }

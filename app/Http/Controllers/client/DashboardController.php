@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Annonce;
 use App\Models\DemandeLocation;
 use App\Models\Avis;
+use App\Models\Portefeuille;
 
 class DashboardController extends Controller
 {
@@ -24,6 +25,13 @@ class DashboardController extends Controller
         // Récupère les avis reçus par l'utilisateur
         $avis = Avis::where('user_id', $user->id)->latest()->get();
 
-        return view('client.dashboard', compact('user', 'annonces', 'demandes', 'avis'));
+        // ✅ Récupère le portefeuille lié à l'utilisateur
+        $portefeuille = Portefeuille::where('locataire_id', $user->id)
+            ->orWhere('proprietaire_id', $user->id)
+            ->orWhere('admin_id', $user->id)
+            ->first();
+
+        return view('client.dashboard', compact('user', 'annonces', 'demandes', 'avis', 'portefeuille'));
     }
 }
+

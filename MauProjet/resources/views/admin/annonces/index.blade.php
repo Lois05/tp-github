@@ -26,50 +26,81 @@
         @endif
     </form>
 
-    <table class="table table-bordered table-hover text-center align-middle">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Titre</th>
-                <th>Localisation</th>
-                <th>Prix (FCFA)</th>
-                <th>Statut</th>
-                <th>Soumise le</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($annonces as $annonce)
+    <div class="table-responsive">
+        <table class="table table-striped table-hover text-center align-middle">
+            <thead class="table-light">
                 <tr>
-                    <td>{{ $annonce->id }}</td>
-                    <td>{{ $annonce->titre }}</td>
-                    <td>{{ $annonce->localisation }}</td>
-                    <td>{{ number_format($annonce->prix, 0, ',', ' ') }}</td>
-                    <td>
-                        @if($annonce->statut === 'validee')
-                            <span class="badge bg-success">Validée</span>
-                        @elseif($annonce->statut === 'rejetee')
-                            <span class="badge bg-danger">Rejetée</span>
-                        @else
-                            <span class="badge bg-secondary">En attente</span>
-                        @endif
-                    </td>
-                    <td>{{ $annonce->created_at->format('d/m/Y') }}</td>
-                    <td>
-                        <a href="{{ route('admin.annonces.show', $annonce) }}" class="btn btn-info btn-sm" title="Voir"><i class="bi bi-eye"></i></a>
-                        @if($annonce->statut === 'en attente')
-                            <a href="{{ route('admin.annonces.edit', $annonce) }}" class="btn btn-warning btn-sm" title="Valider/Rejeter"><i class="bi bi-pencil-square"></i></a>
-                        @endif
-                    </td>
+                    <th>#ID</th>
+                    <th>Titre</th>
+                    <th>Propriétaire</th>
+                    <th>Localisation</th>
+                    <th>Prix (FCFA)</th>
+                    <th>Statut</th>
+                    <th>Soumise le</th>
+                    <th style="width: 200px;">Actions</th>
                 </tr>
-            @empty
-                <tr><td colspan="7">Aucune annonce trouvée.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($annonces as $annonce)
+                    <tr>
+                        <td>{{ $annonce->id }}</td>
+                        <td>{{ $annonce->titre }}</td>
+                        <td>{{ $annonce->proprietaire->nom ?? 'N/A' }}</td>
+                        <td>{{ $annonce->localisation }}</td>
+                        <td>{{ number_format($annonce->prix, 0, ',', ' ') }}</td>
+                        <td>
+                            @if($annonce->statut === 'validee')
+                                <span class="badge bg-success">Validée</span>
+                            @elseif($annonce->statut === 'rejetee')
+                                <span class="badge bg-danger">Rejetée</span>
+                            @else
+                                <span class="badge bg-secondary">En attente</span>
+                            @endif
+                        </td>
+                        <td>{{ $annonce->created_at->format('d/m/Y') }}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions annonce">
+                                @if($annonce->statut === 'en_attente')
+                                    <form action="{{ route('admin.annonces.update', $annonce) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="statut" value="validee">
+                                        <button type="submit" class="btn btn-outline-success btn-sm"
+                                            onclick="return confirm('Valider cette annonce ?')"
+                                            title="Valider">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ route('admin.annonces.update', $annonce) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="statut" value="rejetee">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Rejeter cette annonce ?')"
+                                            title="Rejeter">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('admin.annonces.show', $annonce) }}" class="btn btn-outline-info btn-sm"
+                                        title="Voir">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr><td colspan="8" class="text-center">Aucune annonce trouvée.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     <div class="mt-3 d-flex justify-content-center">
         {{ $annonces->links() }}
     </div>
 </div>
 @endsection
+
