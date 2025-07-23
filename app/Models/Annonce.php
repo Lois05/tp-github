@@ -30,4 +30,16 @@ class Annonce extends Model
     {
         return $this->belongsTo(Bien::class, 'bien_id');
     }
+
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
+
+
+    public function signalements()
+    {
+        return $this->hasMany(Signalement::class);
+    }
+
 }

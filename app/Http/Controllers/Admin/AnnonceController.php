@@ -10,34 +10,34 @@ use Illuminate\Validation\Rule;
 class AnnonceController extends Controller
 {
     public function index(Request $request)
-{
-    $statut = $request->query('statut');
-    $search = $request->query('search');
+    {
+        $statut = $request->query('statut');
+        $search = $request->query('search');
 
-    $query = Annonce::query();
+        $query = Annonce::query();
 
-    if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
-        $mapping = [
-            'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
-            'validee' => 'validee',
-            'rejetee' => 'rejetee',
-        ];
-        $query->where('statut', $mapping[$statut]);
+        if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
+            $mapping = [
+                'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
+                'validee' => 'validee',
+                'rejetee' => 'rejetee',
+            ];
+            $query->where('statut', $mapping[$statut]);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('titre', 'like', "%{$search}%")
+                    ->orWhere('localisation', 'like', "%{$search}%");
+            });
+        }
+
+        // Trier par id asc pour avoir IDs en ordre croissant
+        $annonces = $query->orderBy('id', 'asc')->paginate(10);
+        $annonces->appends($request->only(['statut', 'search']));
+
+        return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
     }
-
-    if ($search) {
-        $query->where(function ($q) use ($search) {
-            $q->where('titre', 'like', "%{$search}%")
-              ->orWhere('localisation', 'like', "%{$search}%");
-        });
-    }
-
-    // Trier par id asc pour avoir IDs en ordre croissant
-    $annonces = $query->orderBy('id', 'asc')->paginate(10);
-    $annonces->appends($request->only(['statut', 'search']));
-
-    return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
-}
 
 
     public function show(Annonce $annonce)
@@ -59,5 +59,23 @@ class AnnonceController extends Controller
         $annonce->update(['statut' => $request->statut]);
 
         return redirect()->route('admin.annonces.index')->with('success', 'Statut mis à jour.');
+    }
+
+    public function valider($id)
+    {
+        $annonce = Annonce::findOrFail($id);
+        $annonce->statut = 'validee';
+        $annonce->save();
+
+        return redirect()->route('admin.annonces.show', $id)->with('success', 'Annonce validée avec succès.');
+    }
+
+    public function rejeter($id)
+    {
+        $annonce = Annonce::findOrFail($id);
+        $annonce->statut = 'rejetee';
+        $annonce->save();
+
+        return redirect()->route('admin.annonces.show', $id)->with('success', 'Annonce rejetée avec succès.');
     }
 }
