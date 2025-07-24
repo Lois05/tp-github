@@ -14,25 +14,17 @@ class AnnonceController extends Controller
         $statut = $request->query('statut');
         $search = $request->query('search');
 
-        $query = Annonce::with('proprietaire'); // ✅ Correction ici
+        // ✅ On charge la relation 'proprietaire' pour chaque annonce
+        $query = Annonce::with('proprietaire');
 
         if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
             $query->where('statut', $statut);
-        $query = Annonce::query();
-
-        if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
-            $mapping = [
-                'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
-                'validee' => 'validee',
-                'rejetee' => 'rejetee',
-            ];
-            $query->where('statut', $mapping[$statut]);
         }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('titre', 'like', "%{$search}%")
-                    ->orWhere('localisation', 'like', "%{$search}%");
+                  ->orWhere('localisation', 'like', "%{$search}%");
             });
         }
 
@@ -41,8 +33,6 @@ class AnnonceController extends Controller
 
         return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
     }
-
-
 
     public function show(Annonce $annonce)
     {
