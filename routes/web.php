@@ -8,7 +8,8 @@ use App\Http\Controllers\Admin\{
     CategorieController,
     HomeController as AdminHomeController,
     UserController,
-    StatistiqueController
+    StatistiqueController,
+    SignalementController
 };
 use App\Http\Controllers\Auth\CustomAuthController;
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
@@ -74,6 +75,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Annonces
     Route::resource('annonces', AnnonceController::class);
+    Route::put('/annonces/{annonce}/valider', [AnnonceController::class, 'valider'])->name('annonces.valider');
+    Route::put('/annonces/{annonce}/rejeter', [AnnonceController::class, 'rejeter'])->name('annonces.rejeter');
 
     // Avis
     Route::resource('avis', AvisController::class)->only(['index', 'show']);
@@ -92,6 +95,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('statistiques/utilisateurs-mensuels', [StatistiqueController::class, 'utilisateursMensuels']);
     Route::get('statistiques/avis-mensuels', [StatistiqueController::class, 'avisMensuels']);
     Route::get('statistiques/revenus-mensuels', [StatistiqueController::class, 'revenusMensuels']);
+
+    // Signalements
+    Route::get('/signalements', [SignalementController::class, 'index'])->name('signalements.index');
+    Route::post('signalements/{signalement}/traiter', [SignalementController::class, 'traiter'])->name('signalements.traiter');
+
 
 
 

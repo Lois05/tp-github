@@ -18,6 +18,15 @@ class AnnonceController extends Controller
 
         if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
             $query->where('statut', $statut);
+        $query = Annonce::query();
+
+        if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
+            $mapping = [
+                'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
+                'validee' => 'validee',
+                'rejetee' => 'rejetee',
+            ];
+            $query->where('statut', $mapping[$statut]);
         }
 
         if ($search) {
@@ -54,5 +63,23 @@ class AnnonceController extends Controller
         $annonce->update(['statut' => $request->statut]);
 
         return redirect()->route('admin.annonces.index')->with('success', 'Statut mis à jour.');
+    }
+
+    public function valider($id)
+    {
+        $annonce = Annonce::findOrFail($id);
+        $annonce->statut = 'validee';
+        $annonce->save();
+
+        return redirect()->route('admin.annonces.show', $id)->with('success', 'Annonce validée avec succès.');
+    }
+
+    public function rejeter($id)
+    {
+        $annonce = Annonce::findOrFail($id);
+        $annonce->statut = 'rejetee';
+        $annonce->save();
+
+        return redirect()->route('admin.annonces.show', $id)->with('success', 'Annonce rejetée avec succès.');
     }
 }

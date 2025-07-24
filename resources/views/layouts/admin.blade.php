@@ -71,6 +71,15 @@
     <!-- Scripts supplémentaires -->
     @include('_partials.script')
     @stack('scripts')
+
+    <script>
+        function toggleSidebar(event) {
+            event.preventDefault();
+            const sidebar = document.getElementById('sidebarMenu');
+            sidebar.classList.toggle('collapsed');
+        }
+    </script>
+
 </body>
 
 </html>

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Réglages de la sidebar */
+.sidebar {
+    width: 250px;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* Rétractée */
+.sidebar.collapsed {
+    width: 70px;
+}
