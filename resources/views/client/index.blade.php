@@ -89,7 +89,7 @@
   <div class="container">
     <div class="row align-items-center gy-4">
       <div class="col-md-6">
-        <img src="{{ asset('images/about-illustration.jpg') }}" alt="À propos de LocaPlus" class="img-fluid rounded shadow" />
+        <img src="{{ asset('assets/images/about.jpg') }}" alt="À propos de LocaPlus" class="img-fluid rounded shadow" />
       </div>
       <div class="col-md-6">
         <h2 class="section-title mb-4">Qui sommes-nous ?</h2>

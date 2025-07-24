@@ -10,34 +10,29 @@ use Illuminate\Validation\Rule;
 class AnnonceController extends Controller
 {
     public function index(Request $request)
-{
-    $statut = $request->query('statut');
-    $search = $request->query('search');
+    {
+        $statut = $request->query('statut');
+        $search = $request->query('search');
 
-    $query = Annonce::query();
+        $query = Annonce::with('proprietaire'); // ✅ Correction ici
 
-    if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
-        $mapping = [
-            'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
-            'validee' => 'validee',
-            'rejetee' => 'rejetee',
-        ];
-        $query->where('statut', $mapping[$statut]);
+        if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
+            $query->where('statut', $statut);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('titre', 'like', "%{$search}%")
+                    ->orWhere('localisation', 'like', "%{$search}%");
+            });
+        }
+
+        $annonces = $query->orderBy('id', 'asc')->paginate(10);
+        $annonces->appends($request->only(['statut', 'search']));
+
+        return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
     }
 
-    if ($search) {
-        $query->where(function ($q) use ($search) {
-            $q->where('titre', 'like', "%{$search}%")
-              ->orWhere('localisation', 'like', "%{$search}%");
-        });
-    }
-
-    // Trier par id asc pour avoir IDs en ordre croissant
-    $annonces = $query->orderBy('id', 'asc')->paginate(10);
-    $annonces->appends($request->only(['statut', 'search']));
-
-    return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
-}
 
 
     public function show(Annonce $annonce)

@@ -3,12 +3,15 @@
 @section('title', 'Contactez-nous')
 
 @section('content')
-<section class="hero d-flex align-items-center justify-content-center text-center text-white" style="background: linear-gradient(135deg, rgba(211, 84, 0, 0.85), rgba(243, 156, 18, 0.8)), url('{{ asset('images/contact-bg.jpg') }}') center/cover no-repeat; height: 60vh; box-shadow: inset 0 0 60px rgba(0,0,0,0.4);">
-  <div class="container">
-    <h1 class="display-4 fw-bold">Contactez LocaPlus</h1>
-    <p class="lead mt-3">Nous sommes à votre écoute pour toute question ou suggestion.</p>
+<header class="hero">
+  <div>
+    <h1>Contactez-nous facilement</h1>
+    <p>Nous sommes là pour vous accompagner et répondre à toutes vos questions. Discutons de votre besoin !</p>
+    <a href="#formulaire-contact" class="btn btn-primary mt-3">Prendre contact</a>
   </div>
-</section>
+</header>
+
+
 
 <section class="py-5">
   <div class="container" style="max-width: 600px;">

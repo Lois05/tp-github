@@ -6,46 +6,47 @@
 
 <header class="hero">
   <div>
-    <h1>Louez tout ce dont vous avez besoin</h1>
-    <p>LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
-    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir toutes les annonces</a>
+    <h1>Trouvez ce qu’il vous faut en quelques clics</h1>
+    <p>Explorez nos annonces et découvrez des biens de qualité à louer partout au Bénin. Simplicité et confiance garanties.</p>
+    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Toutes les annonces</a>
   </div>
 </header>
 
 <section class="container py-5">
   <h2 class="section-title text-center mb-5">Toutes les annonces disponibles</h2>
 
-  <div class="annonces-grid">
+  <div class="row g-4">
     @forelse ($annonces as $annonce)
-      <article class="annonce-card">
-        <!-- Image -->
-        <img src="{{ $annonce->image ? asset('storage/'.$annonce->image) : asset('images/default.png') }}"
-             alt="{{ $annonce->titre }}" class="annonce-img" />
+      <div class="col-md-4">
+        <div class="annonce-card">
+          <!-- Cœur favori -->
+          <span class="favorite-icon">
+            <i class="bi bi-heart-fill"></i>
+          </span>
 
-        <!-- Favorite icon -->
-        <span class="favorite-icon">
-          <i class="bi bi-heart"></i>
-        </span>
+          <!-- Image -->
+          <img src="{{ Str::startsWith($annonce->image, 'http') ? $annonce->image : asset('storage/' . $annonce->image) }}"
+               alt="{{ $annonce->titre }}"
+               class="annonce-img"
+               style="height: 200px; object-fit: cover; width: 100%;">
 
-        <!-- Body -->
-        <div class="annonce-body">
-          <h5 class="annonce-title">{{ $annonce->titre }}</h5>
-          <p class="price">{{ number_format($annonce->prix, 0, ',', ' ') }} F CFA</p>
+          <!-- Corps -->
+          <div class="annonce-body">
+            <h5 class="annonce-title">{{ $annonce->titre }}</h5>
+            <p class="price">{{ number_format($annonce->prix, 0, ',', ' ') }} FCFA / jour</p>
 
-          <!-- Stars -->
-          <div class="stars">
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-half"></i>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+              <i class="bi bi-star"></i>
+            </div>
+
+            <a href="{{ route('client.annonces.show', $annonce->id) }}" class="btn-louer">Voir</a>
           </div>
-
-          <a href="{{ route('client.annonces.show', $annonce->id) }}" class="btn btn-louer mt-2">
-            Voir plus
-          </a>
         </div>
-      </article>
+      </div>
     @empty
       <p class="text-center">Aucune annonce disponible pour le moment.</p>
     @endforelse
@@ -56,5 +57,4 @@
     {{ $annonces->links() }}
   </div>
 </section>
-
 @endsection

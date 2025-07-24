@@ -44,7 +44,7 @@
 <header class="hero text-center py-4">
     <div class="container">
         <h1 class="mb-2">Louez tout ce dont vous avez besoin</h1>
-        <p class="mb-3">LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
+        <p class="mb-3">LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens.</p>
         <a href="{{ route('client.annonces.index') }}" class="btn btn-primary">Voir les annonces</a>
     </div>
 </header>
@@ -74,14 +74,20 @@
             @csrf
             <h2>Inscription</h2>
 
+            <!-- USERS -->
             <div class="mb-3">
-                <label>Prénom</label>
-                <input type="text" name="prenom" class="form-control" required>
+                <label>Nom d'utilisateur</label>
+                <input type="text" name="username" class="form-control" required>
             </div>
 
             <div class="mb-3">
                 <label>Nom</label>
                 <input type="text" name="nom" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Prénom</label>
+                <input type="text" name="prenom" class="form-control" required>
             </div>
 
             <div class="mb-3">
@@ -94,21 +100,45 @@
                 <input type="email" name="email" class="form-control" required>
             </div>
 
-            <!-- Type de compte -->
+            <!-- Type de compte physique/moral -->
             <div class="mb-3">
-                <label>Type de compte</label>
-                <select name="type_compte" id="typeCompte" class="form-select" required>
-                    <option value="particulier" selected>Particulier</option>
-                    <option value="entreprise">Entreprise</option>
+                <label>Type de personne</label>
+                <select name="type_personne" id="type_personne" class="form-select" required>
+                    <option value="">-- Choisir --</option>
+                    <option value="physique">Personne physique</option>
+                    <option value="moral">Personne morale</option>
                 </select>
             </div>
 
-            <!-- Champ entreprise -->
-            <div class="mb-3 d-none" id="entrepriseField">
-                <label>Nom de l’entreprise</label>
-                <input type="text" name="nom_entreprise" class="form-control">
+            <!-- Champs spécifique physique -->
+            <div id="physiqueFields" style="display: none;">
+                <div class="mb-3">
+                    <label>Date de naissance</label>
+                    <input type="date" name="date_naissance" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>NPI</label>
+                    <input type="text" name="npi" class="form-control">
+                </div>
             </div>
 
+            <!-- Champs spécifique moral -->
+            <div id="moralFields" style="display: none;">
+                <div class="mb-3">
+                    <label>Raison sociale</label>
+                    <input type="text" name="raison_sociale" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Registre de commerce</label>
+                    <input type="text" name="registre_commerce" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Représentant légal</label>
+                    <input type="text" name="representant_legal" class="form-control">
+                </div>
+            </div>
+
+            <!-- Mot de passe -->
             <div class="mb-3">
                 <label>Mot de passe</label>
                 <input type="password" name="password" class="form-control" required>
@@ -132,14 +162,20 @@
         document.getElementById('registerForm').classList.toggle('active');
     }
 
-    const typeCompte = document.getElementById('typeCompte');
-    const entrepriseField = document.getElementById('entrepriseField');
+    const typePersonne = document.getElementById('type_personne');
+    const physiqueFields = document.getElementById('physiqueFields');
+    const moralFields = document.getElementById('moralFields');
 
-    typeCompte.addEventListener('change', function() {
-        if (this.value === 'entreprise') {
-            entrepriseField.classList.remove('d-none');
+    typePersonne.addEventListener('change', function() {
+        if (this.value === 'physique') {
+            physiqueFields.style.display = 'block';
+            moralFields.style.display = 'none';
+        } else if (this.value === 'moral') {
+            physiqueFields.style.display = 'none';
+            moralFields.style.display = 'block';
         } else {
-            entrepriseField.classList.add('d-none');
+            physiqueFields.style.display = 'none';
+            moralFields.style.display = 'none';
         }
     });
 </script>

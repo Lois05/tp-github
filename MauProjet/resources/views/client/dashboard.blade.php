@@ -6,11 +6,11 @@
 
     {{-- Alertes --}}
     @if (session('success'))
-        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger">
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -20,114 +20,118 @@
     @endif
 
     <div class="row g-4">
+        {{-- Bloc réutilisable --}}
+        @php
+            $cards = [
+                [
+                    'route' => route('proprietaire.annonces.index'),
+                    'icon' => 'bi-megaphone-fill',
+                    'title' => 'Mes annonces',
+                    'badge' => $annonces->count().' publiées',
+                    'desc' => 'Gérez vos annonces',
+                ],
+                [
+                    'route' => route('client.annonce.create'),
+                    'icon' => 'bi-plus-circle-fill',
+                    'title' => 'Nouvelle annonce',
+                    'badge' => false,
+                    'desc' => 'Publiez une annonce',
+                ],
+                [
+                    'route' => route('locataire.demandes.envoyees'),
+                    'icon' => 'bi-inbox-fill',
+                    'title' => 'Mes demandes envoyées',
+                    'badge' => $demandes->count().' envoyées',
+                    'desc' => 'Suivez vos demandes',
+                ],
+                [
+                    'route' => route('proprietaire.demandes.recues'),
+                    'icon' => 'bi-envelope-open-fill',
+                    'title' => 'Mes demandes reçues',
+                    'badge' => $demandesRecues->count().' reçues',
+                    'desc' => 'Voir les réservations',
+                ],
+                [
+                    'route' => route('proprietaire.avis.recus'),
+                    'icon' => 'bi-star-fill',
+                    'title' => 'Avis reçus',
+                    'badge' => $avis->count().' avis',
+                    'desc' => 'Consultez vos notes',
+                ],
+                [
+                    'route' => route('portefeuille.index'),
+                    'icon' => 'bi-wallet-fill',
+                    'title' => 'Mon portefeuille',
+                    'badge' => number_format($portefeuille->solde ?? 48750, 0, ',', ' ').' FCFA',
+                    'desc' => 'Gérez votre solde',
+                ],
+                [
+                    'route' => route('monprofil.index'),
+                    'icon' => 'bi-person-circle',
+                    'title' => 'Profil',
+                    'badge' => false,
+                    'desc' => 'Mettez à jour vos infos',
+                ],
+            ];
+        @endphp
 
-        {{-- Mes Annonces --}}
-        <div class="col-md-6 col-lg-4">
-            <a href="{{ route('proprietaire.annonces.index') }}" class="text-decoration-none" aria-label="Mes annonces">
-                <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-                    <i class="bi bi-megaphone-fill fs-1 text-primary mb-3"></i>
-                    <h5 class="fw-bold mb-2">Mes annonces</h5>
-                    <span class="badge bg-primary mb-2">{{ $annonces->count() }} publiées</span>
-                    <p class="text-muted small mb-0">Gérez vos annonces</p>
-                </div>
-            </a>
-        </div>
-
-        {{-- Nouvelle annonce --}}
-        <div class="col-md-6 col-lg-4">
-            <a href="{{ route('client.annonce.create') }}" class="text-decoration-none" aria-label="Publier une nouvelle annonce">
-                <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-                    <i class="bi bi-plus-circle-fill fs-1 text-success mb-3"></i>
-                    <h5 class="fw-bold mb-2">Nouvelle annonce</h5>
-                    <p class="text-muted small mb-0">Publiez un bien</p>
-                </div>
-            </a>
-        </div>
-
-        {{-- Mes demandes envoyées --}}
-        <div class="col-md-6 col-lg-4">
-            <a href="{{ route('locataire.demandes.envoyees') }}" class="text-decoration-none" aria-label="Mes demandes envoyées">
-                <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-                    <i class="bi bi-inbox-fill fs-1 text-info mb-3"></i>
-                    <h5 class="fw-bold mb-2">Mes demandes envoyées</h5>
-                    <span class="badge bg-primary mb-2">{{ $demandes->count() }} envoyées</span>
-                    <p class="text-muted small mb-0">Suivez vos demandes</p>
-                </div>
-            </a>
-        </div>
-
-       {{-- Mes demandes reçues --}}
-<div class="col-md-6 col-lg-4">
-    <a href="{{ route('proprietaire.demandes.recues') }}" class="text-decoration-none" aria-label="Mes demandes reçues">
-        <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-            <i class="bi bi-envelope-open-fill fs-1 text-secondary mb-3"></i>
-            <h5 class="fw-bold mb-2">Mes demandes reçues</h5>
-            <span class="badge bg-primary mb-2">{{ $demandesRecues->count() }} reçues</span>
-            <p class="text-muted small mb-0">Voir les réservations</p>
-        </div>
-    </a>
-</div>
-
-
-        {{-- Avis reçus --}}
-        <div class="col-md-6 col-lg-4">
-            <a href="#" class="text-decoration-none" aria-label="Avis reçus">
-                <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-                    <i class="bi bi-star-fill fs-1 text-warning mb-3"></i>
-                    <h5 class="fw-bold mb-2">Avis reçus</h5>
-                    <span class="badge bg-warning text-dark mb-2">{{ $avis->count() }} avis</span>
-                    <p class="text-muted small mb-0">Consultez vos notes</p>
-                </div>
-            </a>
-        </div>
-
-        {{-- Mon portefeuille --}}
-      <div class="col-md-6 col-lg-4">
-    <a href="{{ route('portefeuille.index') }}" class="text-decoration-none" aria-label="Mon portefeuille">
-        <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-            <i class="bi bi-wallet-fill fs-1 text-success mb-3"></i>
-            <h5 class="fw-bold mb-2">Mon portefeuille</h5>
-            <span class="badge bg-success mb-2">
-                {{ number_format($portefeuille->solde ?? 48750, 0, ',', ' ') }} FCFA
-            </span>
-            <p class="text-muted small mb-0">Gérez votre solde</p>
-        </div>
-    </a>
-</div>
-
-        {{-- Profil --}}
-        <div class="col-md-6 col-lg-4">
-            <a href="{{ route('monprofil.index') }}" class="text-decoration-none" aria-label="Modifier mon profil">
-                <div class="card shadow-sm border-0 h-100 p-4 text-center hover-scale">
-                    <i class="bi bi-person-circle fs-1 text-dark mb-3"></i>
-                    <h5 class="fw-bold mb-2">Profil</h5>
-                    <p class="text-muted small mb-0">Mettez à jour vos infos</p>
-                </div>
-            </a>
-        </div>
+        @foreach ($cards as $card)
+            <div class="col-12 col-md-6 col-lg-4">
+                <a href="{{ $card['route'] }}" class="text-decoration-none">
+                    <div class="card dashboard-card text-center h-100 shadow-sm border-0 p-4">
+                        <i class="bi {{ $card['icon'] }} fs-1"></i>
+                        <h5 class="fw-bold mb-2">{{ $card['title'] }}</h5>
+                        @if ($card['badge'])
+                            <span class="badge mb-2">{{ $card['badge'] }}</span>
+                        @endif
+                        <p class="text-muted small mb-0">{{ $card['desc'] }}</p>
+                    </div>
+                </a>
+            </div>
+        @endforeach
 
         {{-- Déconnexion --}}
-        <div class="col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="card shadow-sm border-0 h-100 p-4 text-center btn btn-link w-100 text-decoration-none" aria-label="Se déconnecter">
-                    <i class="bi bi-box-arrow-right fs-1 text-danger mb-3"></i>
+                <button type="submit" class="card dashboard-card text-center h-100 shadow-sm border-0 p-4 btn btn-link w-100">
+                    <i class="bi bi-box-arrow-right fs-1"></i>
                     <h5 class="fw-bold mb-2 text-danger">Se déconnecter</h5>
                     <p class="text-muted small mb-0">Fermer la session</p>
                 </button>
             </form>
         </div>
-
     </div>
 </div>
 
-{{-- Optionnel : Ajout d’un petit effet hover --}}
+{{-- Styles Dashboard --}}
 <style>
-.hover-scale:hover {
-    transform: scale(1.03);
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
-}
+    .dashboard-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border-radius: 1rem;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    }
+
+    .dashboard-card i {
+        color: #2c3e50; /* Bleu nuit */
+    }
+
+    .dashboard-card .badge {
+        background: #e67e22; /* Orange LocaPlus */
+        color: #fff;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 50rem;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-card {
+            padding: 2rem 1rem;
+        }
+    }
 </style>
 @endsection
-

@@ -49,7 +49,7 @@ class AnnonceController extends Controller
             'bien_id' => $bien->id,
         ]);
 
-        return redirect()->route('client.annonces.index')->with('success', 'Annonce publiée avec succès !');
+        return redirect()->route('client.dashboard')->with('success', 'Annonce publiée avec succès !');
     }
 }
 

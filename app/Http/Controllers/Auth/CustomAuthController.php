@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Locataire;
+use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,30 +30,50 @@ class CustomAuthController extends Controller
     }
 
     public function register(Request $request)
-{
-    $request->validate([
-        'username' => 'required|string|max:255|unique:users',
-        'nom' => 'required|string|max:255',
-        'prenom' => 'required|string|max:20',
-        'email' => 'required|email|unique:users',
-        'telephone' => 'required|string|max:20',
-        'password' => 'required|confirmed|min:6',
-    ]);
+    {
+        $request->validate([
+            'prenom' => 'required|string',
+            'nom' => 'required|string',
+            'telephone' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed|min:6',
+            'type_personne' => 'required|in:physique,morale',
 
-    $user = User::create([
-        'username' => $request->username,
-        'nom' => $request->nom,
-        'prenom' => $request->prenom,
-        'telephone' => $request->telephone,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+            // validations conditionnelles
+            'date_naissance' => 'required_if:type_personne,physique|nullable|date',
+            'npi' => 'required_if:type_personne,physique|nullable|string',
+            'raison_sociale' => 'required_if:type_personne,morale|nullable|string',
+            'registre_commerce' => 'required_if:type_personne,morale|nullable|string',
+            'representant_legal' => 'required_if:type_personne,morale|nullable|string',
+        ]);
 
-    Auth::login($user);
+        $user = User::create([
+            'prenom' => $request->prenom,
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    return redirect('/')->with('success', 'Inscription réussie.');
-}
+        if ($request->type_personne === 'physique') {
+            Locataire::create([
+                'user_id' => $user->id,
+                'type' => 'physique',
+                'date_naissance' => $request->date_naissance,
+                'npi' => $request->npi,
+            ]);
+        } else {
+            Locataire::create([
+                'user_id' => $user->id,
+                'type' => 'morale',
+                'raison_sociale' => $request->raison_sociale,
+                'registre_commerce' => $request->registre_commerce,
+                'representant_legal' => $request->representant_legal,
+            ]);
+        }
 
+        Auth::login($user);
 
-
+        return redirect()->route('client.dashboard')->with('success', 'Bienvenue sur LocaPlus !');
+    }
 }

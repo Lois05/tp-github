@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client\Proprietaire;
 
 use App\Http\Controllers\Controller;
 use App\Models\Annonce;
+use App\Models\Avis;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -133,4 +134,18 @@ class ProprietaireAnnonceController extends Controller
         return redirect()->route('client.proprietaire.mes_annonces.index')
             ->with('success', 'Annonce supprimée.');
     }
+public function avisRecus()
+{
+    $userId = Auth::id();
+
+    $avisRecus = Avis::whereHas('annonce', function($q) use ($userId) {
+        $q->whereHas('proprietaire', function($q2) use ($userId) {
+            $q2->where('user_id', $userId);
+        });
+    })->with('annonce', 'user')->latest()->get();
+
+    return view('client.proprietaire.avis_recus', compact('avisRecus'));
+}
+
+
 }

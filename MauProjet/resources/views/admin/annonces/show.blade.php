@@ -1,26 +1,40 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container py-4">
-    <h1>Détails de l'annonce</h1>
+    <div class="container py-4">
+        <h1>Détails de l'annonce</h1>
 
-    <div class="card mt-4">
-        <div class="card-body">
-            <p><strong>Titre :</strong> {{ $annonce->titre }}</p>
-            <p><strong>Localisation :</strong> {{ $annonce->localisation }}</p>
-            <p><strong>Prix :</strong> {{ number_format($annonce->prix, 0, ',', ' ') }} FCFA</p>
-            <p><strong>Statut :</strong>
-                @if($annonce->statut === 'disponible')
-                    <span class="badge bg-success">Disponible</span>
-                @else
-                    <span class="badge bg-danger">Indisponible</span>
-                @endif
-            </p>
-            <p><strong>Créée le :</strong> {{ $annonce->created_at->format('d/m/Y à H:i') }}</p>
+        <div class="card mt-4">
+            <div class="card-body">
+                <p><strong>Titre :</strong> {{ $annonce->titre }}</p>
+                <p><strong>Localisation :</strong> {{ $annonce->localisation }}</p>
+                <p><strong>Prix :</strong> {{ number_format($annonce->prix, 0, ',', ' ') }} FCFA</p>
+                <p><strong>Statut :</strong>
+                    @if ($annonce->statut === 'disponible')
+                        <span class="badge bg-success">Disponible</span>
+                    @else
+                        <span class="badge bg-danger">Indisponible</span>
+                    @endif
 
-            <a href="{{ route('admin.annonces.edit', $annonce) }}" class="btn btn-warning">Modifier</a>
-            <a href="{{ route('admin.annonces.index') }}" class="btn btn-secondary ms-2">Retour à la liste</a>
+                    @if ($annonce->image)
+                        @if (Str::startsWith($annonce->image, 'http'))
+                            <img src="{{ $annonce->image }}" alt="Image" class="img-fluid rounded mb-3"
+                                style="max-width: 300px;">
+                        @else
+                            <img src="{{ asset('storage/' . $annonce->image) }}" alt="Image"
+                                class="img-fluid rounded mb-3" style="max-width: 300px;">
+                        @endif
+                    @else
+                        <img src="{{ asset('images/default.png') }}" alt="Pas d'image" class="img-fluid rounded mb-3"
+                            style="max-width: 300px;">
+                    @endif
+
+                </p>
+                <p><strong>Créée le :</strong> {{ $annonce->created_at->format('d/m/Y à H:i') }}</p>
+
+                <a href="{{ route('admin.annonces.edit', $annonce) }}" class="btn btn-warning">Modifier</a>
+                <a href="{{ route('admin.annonces.index') }}" class="btn btn-secondary ms-2">Retour à la liste</a>
+            </div>
         </div>
     </div>
-</div>
 @endsection

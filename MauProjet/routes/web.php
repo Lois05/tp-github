@@ -111,7 +111,16 @@ Route::middleware(['auth'])->group(function () {
         // Actions de validation/refus des demandes reçues
         Route::post('demandes/{id}/valider', [ProprietaireDemandeController::class, 'valider'])->name('demandes.valider');
         Route::post('demandes/{id}/refuser', [ProprietaireDemandeController::class, 'refuser'])->name('demandes.refuser');
+
+        Route::get('avis', [ProprietaireAnnonceController::class, 'avisRecus'])->name('avis.recus');
     });
+
+
+
+
+    Route::get('/annonces/{annonce}/avis/create', [AvisController::class, 'create'])->name('avis.create');
+    Route::post('/annonces/{annonce}/avis', [AvisController::class, 'store'])->name('avis.store');
+
 
     /*
     |--------------------------------------------------------------------------
