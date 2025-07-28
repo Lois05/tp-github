@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="mb-4 fw-bold">Bonjour {{ $user->prenom ?? $user->name }} 👋</h2>
+    <h2 class="mb-4 fw-bold">Bonjour {{ $user->prenom ?? $user->name }} </h2>
 
     {{-- Alertes --}}
     @if (session('success'))
