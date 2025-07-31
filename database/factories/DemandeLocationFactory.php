@@ -2,23 +2,33 @@
 
 namespace Database\Factories;
 
+use App\Models\Annonce;
 use App\Models\Bien;
 use App\Models\Locataire;
+use App\Models\Proprietaire;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DemandeLocationFactory extends Factory
 {
-    public function definition(): array
-    {
-        $start = $this->faker->dateTimeBetween('-1 month', '+1 month');
-        $end = (clone $start)->modify('+'.rand(2, 10).' days');
-
-        return [
-            'date_debut' => $start->format('Y-m-d'),
-            'date_fin' => $end->format('Y-m-d'),
-            'statut' => $this->faker->randomElement(['en_attente', 'acceptée', 'refusée']),
-            'bien_id' => Bien::factory(),
-            'locataire_id' => Locataire::factory(),
-        ];
-    }
+    public function definition() {
+    $locataire = Locataire::factory()->create();
+    $proprietaire = Proprietaire::factory()->create();
+    $bien = Bien::factory()->create(['proprietaire_id' => $proprietaire->id]);
+    $annonce = Annonce::factory()->create([
+        'user_id' => $proprietaire->user_id,
+        'bien_id' => $bien->id,
+    ]);
+    return [
+        'annonce_id' => $annonce->id,
+        'bien_id' => $bien->id,
+        'locataire_id' => $locataire->id,
+        'proprietaire_id' => $proprietaire->id,
+        'nom' => $this->faker->name(),
+        'telephone' => $this->faker->phoneNumber(),
+        'message' => $this->faker->sentence(),
+        'date_debut' => now()->addDays(1),
+        'date_fin' => now()->addDays(10),
+        'statut' => 'en_attente',
+    ];
+}
 }

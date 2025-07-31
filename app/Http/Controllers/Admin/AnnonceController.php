@@ -18,13 +18,18 @@ class AnnonceController extends Controller
         $query = Annonce::with('proprietaire');
 
         if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
-            $query->where('statut', $statut);
+            $mapping = [
+                'en_attente' => 'en_attente',  // <-- Assure-toi que ça correspond à la base !
+                'validee' => 'validee',
+                'rejetee' => 'rejetee',
+            ];
+            $query->where('statut', $mapping[$statut]);
         }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('titre', 'like', "%{$search}%")
-                  ->orWhere('localisation', 'like', "%{$search}%");
+                    ->orWhere('localisation', 'like', "%{$search}%");
             });
         }
 

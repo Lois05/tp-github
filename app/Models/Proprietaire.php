@@ -28,7 +28,12 @@ class Proprietaire extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function biens()
+    {
+        return $this->hasMany(Bien::class, 'proprietaire_id');
     }
 
     /**
@@ -45,5 +50,21 @@ class Proprietaire extends Model
     public function estMoral()
     {
         return $this->type === 'moral';
+    }
+
+    public function demandesRecues()
+    {
+        // récupère toutes les demandes sur ses biens
+        return $this->hasManyThrough(
+            DemandeLocation::class,
+            Bien::class,
+            'proprietaire_id', // clé étrangère sur biens pointant sur proprietaire
+            'bien_id',
+            'locataire_id',
+                    // clé étrangère sur demande_locations pointant sur bien
+            'id',              // clé locale proprietaire
+            'id'
+                          // clé locale bien
+        );
     }
 }

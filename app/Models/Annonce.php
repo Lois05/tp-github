@@ -15,11 +15,11 @@ class Annonce extends Model
         'localisation',
         'description',
         'prix',
-        'statut',
         'image',
-        'user_id',
+        'statut',
         'bien_id',
-    ];
+        'user_id',
+];
 
     public function user()
     {

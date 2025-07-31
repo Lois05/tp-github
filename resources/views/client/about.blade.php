@@ -6,11 +6,13 @@
 <!-- Hero Section (optionnel, tu peux l'ajouter ici aussi) -->
 <header class="hero">
   <div>
-    <h1>Louez tout ce dont vous avez besoin</h1>
-    <p>LocaPlus connecte locataires et propriétaires au Bénin pour tout type de biens, hors immobilier.</p>
-    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
+    <h1>Qui sommes-nous ?</h1>
+    <p>LocaPlus est la plateforme de location entre particuliers au Bénin. Notre mission : rendre la location simple, accessible et fiable pour tous.</p>
+    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir nos annonces</a>
   </div>
 </header>
+
+
 
 
     <section class="about-section py-5">
@@ -100,35 +102,6 @@
   </div>
 </section>
 
-<style>
-  .about-section {
-    background: #f9fafb;
-  }
-  .section-title {
-    color: #d35400;
-    font-weight: 800;
-    font-size: 2.5rem;
-  }
-  @media (max-width: 991px) {
-    .about-section .container {
-      flex-direction: column;
-    }
-  }
-  .faq-section {
-    background: white;
-  }
-  .accordion-button {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #2c3e50;
-  }
-  .accordion-button:not(.collapsed) {
-    color: #d35400;
-    background-color: #fef3e8;
-  }
-  .accordion-body {
-    font-size: 1rem;
-    color: #555;
-  }
-</style>
+
+
 @endsection

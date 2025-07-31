@@ -6,32 +6,94 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DemandeLocation;
 use App\Models\Annonce;
+use App\Models\Proprietaire;
 use Illuminate\Support\Facades\Auth;
 
 class ProprietaireDemandeController extends Controller
 {
-    /**
-     * Affiche toutes les demandes que l'utilisateur a envoyées
-     */
-
-
-   public function envoyees()
+    public function envoyees()
 {
-    $mesDemandes = DemandeLocation::where('locataire_id', Auth::id())->get();
-    return view('client.proprietaire.demandes.envoyees', compact('mesDemandes'));
+    $proprietaire = Auth::user()->proprietaire;
+
+    if (!$proprietaire) {
+        $demandes = collect();
+        return view('client.proprietaire.demandes.envoyees', compact('demandes'));
+    }
+
+    $demandes = DemandeLocation::where('proprietaire_id', $proprietaire->id)
+        ->latest()
+        ->get();
+
+    return view('client.proprietaire.demandes.envoyees', compact('demandes'));
 }
 
+
     /**
-     * Affiche toutes les demandes reçues sur MES annonces
+     * Affiche toutes les demandes reçues en tant que PROPRIÉTAIRE
      */
     public function recues()
     {
-        // Cherche toutes les annonces de ce proprio
-        $mesAnnoncesIds = Annonce::where('user_id', Auth::id())->pluck('id');
+        // Récupérer le profil propriétaire lié à l'utilisateur
+        $proprietaire = Auth::user()->proprietaire;
 
-        // Cherche toutes les demandes sur ces annonces
-        $demandesRecues = DemandeLocation::whereIn('annonce_id', $mesAnnoncesIds)->get();
+        // Si pas de profil propriétaire, tenter de créer s'il a une annonce
+        if (!$proprietaire) {
+            $annonce = Annonce::where('user_id', Auth::id())->first();
 
-        return view('client.proprietaire.demandes.recues', compact('demandesRecues'));
+            if ($annonce) {
+                // Créer le profil propriétaire automatiquement
+                $proprietaire = Proprietaire::create([
+                    'user_id' => Auth::id(),
+                ]);
+            } else {
+                // Pas de profil et pas d'annonce, retourner collection vide
+                $demandes = collect();
+                return view('client.proprietaire.demandes.recues', compact('demandes'));
+            }
+        }
+
+        $demandes = DemandeLocation::where('proprietaire_id', $proprietaire->id)
+            ->latest()
+            ->get();
+
+        return view('client.proprietaire.demandes.recues', compact('demandes'));
+    }
+
+    /**
+     * Accepter une demande
+     */
+    public function valider($id)
+    {
+        $demande = DemandeLocation::findOrFail($id);
+
+        $proprietaire = Auth::user()->proprietaire;
+
+        if (!$proprietaire || $demande->proprietaire_id !== $proprietaire->id) {
+            abort(403, "Action non autorisée.");
+        }
+
+        $demande->statut = 'acceptée';
+        $demande->save();
+
+        return back()->with('success', 'Demande acceptée.');
+    }
+
+    /**
+     * Refuser une demande
+     */
+    public function refuser($id)
+    {
+        $demande = DemandeLocation::findOrFail($id);
+
+        $proprietaire = Auth::user()->proprietaire;
+
+        if (!$proprietaire || $demande->proprietaire_id !== $proprietaire->id) {
+            abort(403, "Action non autorisée.");
+        }
+
+        $demande->statut = 'refusée';
+        $demande->save();
+
+        return back()->with('success', 'Demande refusée.');
     }
 }
