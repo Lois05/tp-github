@@ -1,11 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.client')
+
+@section('title', 'Publier une annonce')
 
 @section('content')
-    <h1>Publier une annonce</h1>
+<div class="container py-5">
+    <h2 class="mb-4 fw-bold">Publier une annonce</h2>
 
     @if ($errors->any())
-        <div style="color: red;">
-            <ul>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -13,27 +16,33 @@
         </div>
     @endif
 
-    <form action="{{ route('proprietaire.annonces.store') }}" method="POST">
+    <form action="{{ route('proprietaire.annonces.store') }}" method="POST" class="card p-4 shadow-sm">
         @csrf
-        <div>
-            <label for="titre">Titre</label>
-            <input type="text" name="titre" value="{{ old('titre') }}">
+
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" name="titre" id="titre" class="form-control" value="{{ old('titre') }}" required>
         </div>
 
-        <div>
-            <label for="description">Description</label>
-            <textarea name="description">{{ old('description') }}</textarea>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" id="description" rows="4" class="form-control" required>{{ old('description') }}</textarea>
         </div>
 
-        <div>
-            <label for="bien_id">Bien</label>
-            <select name="bien_id">
-                {{-- Remplace ça par tes vrais biens --}}
-                <option value="1">Bien 1</option>
-                <option value="2">Bien 2</option>
+        <div class="mb-3">
+            <label for="categorie_id" class="form-label">Catégorie</label>
+            <select name="categorie_id" id="categorie_id" class="form-select" required>
+                <option value="">-- Choisissez une catégorie --</option>
+                @foreach($categories as $categorie)
+                    <option value="{{ $categorie->id }}" {{ old('categorie_id') == $categorie->id ? 'selected' : '' }}>
+                        {{ $categorie->nom }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
-        <button type="submit">Publier</button>
+        <button type="submit" class="btn btn-primary">Publier l'annonce</button>
     </form>
+</div>
 @endsection
+

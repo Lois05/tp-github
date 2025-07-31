@@ -9,7 +9,7 @@ class Bien extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'description', 'categorie_id'];
+    protected $fillable = ['nom', 'description', 'categorie_id', 'proprietaire_id'];
 
     public function annonce()
     {
@@ -29,5 +29,9 @@ class Bien extends Model
     public function categorie()
     {
         return $this->belongsTo(Categorie::class, 'categorie_id');
+    }
+     public function proprietaire()
+    {
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id');
     }
 }
