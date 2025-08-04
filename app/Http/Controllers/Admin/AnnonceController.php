@@ -15,7 +15,7 @@ class AnnonceController extends Controller
         $search = $request->query('search');
 
         // ✅ On charge la relation 'proprietaire' pour chaque annonce
-        $query = Annonce::with('proprietaire');
+        $query = Annonce::with('user');
 
         if ($statut && in_array($statut, ['en_attente', 'validee', 'rejetee'])) {
             $mapping = [
