@@ -50,6 +50,7 @@ class CustomAuthController extends Controller
         $user = User::create([
             'prenom' => $request->prenom,
             'nom' => $request->nom,
+            'username' => $request->username,
             'telephone' => $request->telephone,
             'email' => $request->email,
             'password' => Hash::make($request->password),
