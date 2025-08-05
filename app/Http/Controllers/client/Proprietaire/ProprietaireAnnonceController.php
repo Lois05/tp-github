@@ -6,35 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\Annonce;
 use App\Models\Avis;
 use App\Models\Proprietaire;
+use App\Models\Categorie; // N'oublie pas d'importer Categorie si tu l'utilises
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProprietaireAnnonceController extends Controller
 {
-    /**
-     * Liste toutes les annonces de l'utilisateur, même s'il n'est pas encore propriétaire.
-     */
-   public function index()
+    public function index()
 {
     $user = Auth::user();
-
-    // Récupère toutes ses annonces via user_id
-    $annonces = Annonce::where('user_id', $user->id)->latest()->get();
-
+    $annonces = Annonce::with('categorie')->where('user_id', $user->id)->latest()->get();
     return view('client.proprietaire.mes_annonces.index', compact('annonces'));
 }
 
-    /**
-     * Affiche le formulaire pour créer une nouvelle annonce.
-     */
+
     public function create()
     {
-        return view('client.proprietaire.mes_annonces.create');
+        // On récupère les catégories pour la sélection dans le formulaire
+        $categories = Categorie::all();
+        return view('client.proprietaire.mes_annonces.create', compact('categories'));
     }
 
-    /**
-     * Enregistre une nouvelle annonce.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -45,12 +37,10 @@ class ProprietaireAnnonceController extends Controller
 
         $user = Auth::user();
 
-        // Crée un profil propriétaire s'il n'existe pas encore
         $proprietaire = $user->proprietaire ?? Proprietaire::create([
             'user_id' => $user->id,
         ]);
 
-        // Crée l'annonce
         $proprietaire->annonces()->create([
             'titre' => $request->titre,
             'description' => $request->description,
@@ -58,42 +48,38 @@ class ProprietaireAnnonceController extends Controller
             'statut' => 'en_attente',
         ]);
 
-        return redirect()->route('client.proprietaire.mes_annonces.index')
+        return redirect()->route('proprietaire.annonces.index')
             ->with('success', 'Annonce créée et en attente de validation.');
     }
 
-    /**
-     * Affiche une seule annonce de l'utilisateur.
-     */
     public function show(Annonce $annonce)
     {
         $user = Auth::user();
-
-        // Vérifie que l'annonce appartient à ce user
-        if (!$user->proprietaire || $annonce->proprietaire_id !== $user->proprietaire->id) {
+        if ($annonce->user_id !== $user->id) {
             abort(403, "Action non autorisée.");
         }
+
+          
 
         return view('client.proprietaire.mes_annonces.show', compact('annonce'));
     }
 
-    /**
-     * Affiche le formulaire de modification.
-     */
     public function edit(Annonce $annonce)
     {
         $user = Auth::user();
 
-        if (!$user->proprietaire || $annonce->proprietaire_id !== $user->proprietaire->id) {
+        if (
+            (!$user->proprietaire && $annonce->user_id !== $user->id) ||
+            ($user->proprietaire && $annonce->proprietaire_id !== $user->proprietaire->id && $annonce->user_id !== $user->id)
+        ) {
             abort(403, 'Action non autorisée.');
         }
 
-        return view('client.proprietaire.mes_annonces.edit', compact('annonce'));
+        $categories = Categorie::all();
+
+        return view('client.proprietaire.mes_annonces.edit', compact('annonce', 'categories'));
     }
 
-    /**
-     * Met à jour l'annonce.
-     */
     public function update(Request $request, Annonce $annonce)
     {
         $request->validate([
@@ -104,48 +90,54 @@ class ProprietaireAnnonceController extends Controller
 
         $user = Auth::user();
 
-        if (!$user->proprietaire || $annonce->proprietaire_id !== $user->proprietaire->id) {
+        if (
+            (!$user->proprietaire && $annonce->user_id !== $user->id) ||
+            ($user->proprietaire && $annonce->proprietaire_id !== $user->proprietaire->id && $annonce->user_id !== $user->id)
+        ) {
             abort(403, 'Action non autorisée.');
         }
 
-        $annonce->update([
-            'titre' => $request->titre,
-            'description' => $request->description,
-            'categorie_id' => $request->categorie_id,
-        ]);
+       $annonce->update([
+    'titre' => $request->titre,
+    'description' => $request->description,
+]);
 
-        return redirect()->route('client.proprietaire.mes_annonces.index')
+// ✅ On récupère le Bien lié et on met à jour SA catégorie :
+$bien = $annonce->bien;
+$bien->categorie_id = $request->categorie_id;
+$bien->save();
+
+
+        return redirect()->route('proprietaire.annonces.index')
             ->with('success', 'Annonce mise à jour.');
     }
 
-    /**
-     * Supprime l'annonce.
-     */
     public function destroy(Annonce $annonce)
     {
         $user = Auth::user();
 
-        if (!$user->proprietaire || $annonce->proprietaire_id !== $user->proprietaire->id) {
+        if (
+            (!$user->proprietaire && $annonce->user_id !== $user->id) ||
+            ($user->proprietaire && $annonce->proprietaire_id !== $user->proprietaire->id && $annonce->user_id !== $user->id)
+        ) {
             abort(403, 'Action non autorisée.');
         }
 
         $annonce->delete();
 
-        return redirect()->route('client.proprietaire.mes_annonces.index')
+        return redirect()->route('proprietaire.annonces.index')
             ->with('success', 'Annonce supprimée.');
     }
-public function avisRecus()
-{
-    $userId = Auth::id();
 
-    $avisRecus = Avis::whereHas('annonce', function($q) use ($userId) {
-        $q->whereHas('proprietaire', function($q2) use ($userId) {
-            $q2->where('user_id', $userId);
-        });
-    })->with('annonce', 'user')->latest()->get();
+    public function avisRecus()
+    {
+        $userId = Auth::id();
 
-    return view('client.proprietaire.avis_recus', compact('avisRecus'));
-}
+$avisRecus = Avis::whereHas('annonce', function($query) use ($userId) {
+    $query->where('user_id', $userId); // user_id dans annonces = propriétaire
+})->with('user', 'annonce')->latest()->get();
 
 
+        return view('client.proprietaire.avis_recus', compact('avisRecus'));
+    }
 }

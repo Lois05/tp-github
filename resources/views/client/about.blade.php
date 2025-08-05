@@ -3,14 +3,16 @@
 @section('title', 'Contactez-nous - LocaPlus')
 
 @section('content')
-<!-- Hero Section (optionnel, tu peux l'ajouter ici aussi) -->
-<header class="hero">
-  <div>
-    <h1>Qui sommes-nous ?</h1>
-    <p>LocaPlus est la plateforme de location entre particuliers au Bénin. Notre mission : rendre la location simple, accessible et fiable pour tous.</p>
-    <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir nos annonces</a>
-  </div>
-</header>
+
+<!-- Hero Section -->
+    <header class="hero text-white d-flex align-items-center"
+        style="background: url('{{ asset('assets/images/about.jpg') }}') center/cover no-repeat; height: 400px;">
+        <div class="container text-center">
+            <h1>Qui sommes-nous ?</h1>
+            <p>LocaPlus est la plateforme de location entre particuliers au Bénin. Notre mission : rendre la location simple, accessible et fiable pour tous.!</p>
+            <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
+        </div>
+    </header>
 
 
 
@@ -19,7 +21,7 @@
   <div class="container d-flex flex-column flex-lg-row align-items-center gap-4">
     <!-- Image -->
     <div class="about-image flex-shrink-0" style="flex:1; max-width: 500px;">
-      <img src="{{ asset('images/about-illustration.jpg') }}" alt="À propos de LocaPlus" class="img-fluid rounded shadow">
+      <img src="{{ asset('assets/images/about1.jpeg') }}" alt="À propos de LocaPlus" class="img-fluid rounded shadow">
     </div>
 
     <!-- Texte -->

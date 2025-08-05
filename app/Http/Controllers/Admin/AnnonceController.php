@@ -33,7 +33,7 @@ class AnnonceController extends Controller
             });
         }
 
-        $annonces = $query->orderBy('id', 'asc')->paginate(10);
+        $annonces = $query->orderBy('id', 'desc')->paginate(10);
         $annonces->appends($request->only(['statut', 'search']));
 
         return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
@@ -77,4 +77,25 @@ class AnnonceController extends Controller
 
         return redirect()->route('admin.annonces.show', $id)->with('success', 'Annonce rejetée avec succès.');
     }
+
+    
+    
+    public function destroy(Annonce $annonce)
+    {
+        // Optionnel : vérifier que l'utilisateur a le droit de supprimer
+        // $this->authorize('delete', $annonce);
+
+        // Supprimer l'image associée si besoin (si stockée localement)
+        if ($annonce->image && !str_starts_with($annonce->image, 'http')) {
+            \Storage::disk('public')->delete($annonce->image);
+        }
+
+        // Supprimer l'annonce
+        $annonce->delete();
+
+        // Rediriger avec un message de succès
+        return redirect()->route('admin.annonces.index')
+                         ->with('success', 'Annonce supprimée avec succès.');
+    }
+
 }

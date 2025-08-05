@@ -23,7 +23,7 @@
                 @foreach($annonces as $annonce)
                     <tr>
                         <td>{{ $annonce->titre }}</td>
-                        <td>{{ $annonce->categorie->nom ?? 'Non spécifiée' }}</td>
+                        <td>{{ $annonce->bien && $annonce->bien->categorie ? $annonce->bien->categorie->nom : 'Non spécifiée' }}</td>
                         <td>
                             @switch($annonce->statut)
                                 @case('en_attente')

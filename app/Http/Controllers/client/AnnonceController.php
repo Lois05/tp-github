@@ -85,19 +85,23 @@ class AnnonceController extends Controller
 }
 
 
-   public function show(Annonce $annonce)
+  public function show($id)
 {
-    $user = Auth::user();
+    $annonce = Annonce::with(['bien.proprietaire.user'])->findOrFail($id);
 
     $avisLaissé = false;
 
-    if ($user) {
-        $avisLaissé = \App\Models\Avis::where('annonce_id', $annonce->id)
-            ->where('user_id', $user->id)
+    if (auth()->check()) {
+        $avisLaissé = $annonce->avis()
+            ->where('user_id', auth()->id())
             ->exists();
     }
 
-    return view('client.annonces.show', compact('annonce', 'avisLaissé'));
+    return view('client.annonces.show', [
+        'annonce' => $annonce,
+        'avisLaissé' => $avisLaissé,
+    ]);
 }
+
 
 }

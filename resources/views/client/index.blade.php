@@ -208,4 +208,14 @@
             </div>
         </div>
     </section>
+
+    <script>
+document.querySelectorAll('.favorite-icon').forEach(icon => {
+    icon.addEventListener('click', e => {
+        e.preventDefault();
+        icon.classList.toggle('active');
+        // Ajoute ici une requête AJAX pour sauvegarder le favori côté serveur si besoin
+    });
+});
+</script>
 @endsection

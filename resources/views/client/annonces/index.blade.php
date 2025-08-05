@@ -4,12 +4,15 @@
 
 @section('content')
 
-    <header class="hero">
-        <div>
+   
+    <!-- Hero Section -->
+    <header class="hero text-white d-flex align-items-center"
+        style="background: url('{{ asset('assets/images/hero.jpeg') }}') center/cover no-repeat; height: 400px;">
+        <div class="container text-center">
             <h1>Trouvez ce qu’il vous faut en quelques clics</h1>
             <p>Explorez nos annonces et découvrez des biens de qualité à louer partout au Bénin. Simplicité et confiance
                 garanties.</p>
-            <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Toutes les annonces</a>
+            <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
         </div>
     </header>
 
@@ -57,4 +60,6 @@
             {{ $annonces->links() }}
         </div>
     </section>
+
+    
 @endsection

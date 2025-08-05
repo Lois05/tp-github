@@ -30,7 +30,9 @@
         <thead class="table-light">
             <tr>
                 <th>ID</th>
+                <th>Image</th>
                 <th>Titre</th>
+                <th>Propriétaire</th>
                 <th>Localisation</th>
                 <th>Prix (FCFA)</th>
                 <th>Statut</th>
@@ -42,14 +44,29 @@
             @forelse($annonces as $annonce)
                 <tr>
                     <td>{{ $annonce->id }}</td>
+
                     <td>
-                        {{ $annonce->titre }}
-                        <div>
-                            <small>
-                                {{ $annonce?->user?->fullname() ?? '---' }}
-                            </small>
-                        </div>
+                        @if($annonce->image)
+                            <img 
+                                src="{{ Str::startsWith($annonce->image, 'http') ? $annonce->image : asset('storage/' . $annonce->image) }}" 
+                                alt="Image de l'annonce" 
+                                style="width: 80px; height: 50px; object-fit: cover; border-radius: 4px;"
+                            >
+                        @else
+                            <span class="text-muted">Pas d'image</span>
+                        @endif
                     </td>
+
+                    <td>{{ $annonce->titre }}</td>
+
+                    <td>
+                        {{ 
+                            $annonce->user?->fullname() 
+                            ?? $annonce->proprietaire?->user?->fullname() 
+                            ?? 'Inconnu' 
+                        }}
+                    </td>
+
                     <td>{{ $annonce->localisation }}</td>
                     <td>{{ number_format($annonce->prix, 0, ',', ' ') }}</td>
                     <td>
@@ -63,14 +80,21 @@
                     </td>
                     <td>{{ $annonce->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.annonces.show', $annonce) }}" class="btn btn-info btn-sm" title="Voir"><i class="bi bi-eye"></i></a>
-                        @if($annonce->statut === 'en attente')
-                            <a href="{{ route('admin.annonces.edit', $annonce) }}" class="btn btn-warning btn-sm" title="Valider/Rejeter"><i class="bi bi-pencil-square"></i></a>
-                        @endif
+                        <a href="{{ route('admin.annonces.show', $annonce) }}" class="btn btn-info btn-sm" title="Voir">
+                            <i class="bi bi-eye"></i>
+                        </a>
+
+                        <form action="{{ route('admin.annonces.destroy', $annonce) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Confirmer la suppression ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" title="Supprimer">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7">Aucune annonce trouvée.</td></tr>
+                <tr><td colspan="9">Aucune annonce trouvée.</td></tr>
             @endforelse
         </tbody>
     </table>

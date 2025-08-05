@@ -11,9 +11,9 @@ class Bien extends Model
 
     protected $fillable = ['nom', 'description', 'categorie_id', 'proprietaire_id'];
 
-    public function annonce()
+    public function annonces()
     {
-        return $this->hasOne(Annonce::class, 'bien_id');
+        return $this->hasMany(Annonce::class);
     }
 
     public function demandeLocations()
@@ -32,6 +32,6 @@ class Bien extends Model
     }
      public function proprietaire()
     {
-        return $this->belongsTo(Proprietaire::class, 'proprietaire_id');
+        return $this->belongsTo(Proprietaire::class);
     }
 }

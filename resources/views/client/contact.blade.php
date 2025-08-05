@@ -3,14 +3,16 @@
 @section('title', 'Contactez-nous')
 
 @section('content')
-<header class="hero">
-  <div>
-    <h1>Contactez-nous facilement</h1>
-    <p>Nous sommes là pour vous accompagner et répondre à toutes vos questions. Discutons de votre besoin !</p>
-    <a href="#formulaire-contact" class="btn btn-primary mt-3">Prendre contact</a>
-  </div>
-</header>
 
+<!-- Hero Section -->
+    <header class="hero text-white d-flex align-items-center"
+        style="background: url('{{ asset('assets/images/about.jpg') }}') center/cover no-repeat; height: 400px;">
+        <div class="container text-center">
+            <h1>Contactez-nous facilement</h1>
+            <p>Nous sommes là pour vous accompagner et répondre à toutes vos questions. Discutons de votre besoin !</p>
+            <a href="{{ route('client.annonces.index') }}" class="btn btn-primary mt-3">Voir les annonces</a>
+        </div>
+    </header>
 
 
 <section class="py-5">
