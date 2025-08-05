@@ -12,15 +12,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AnnonceController extends Controller
 {
-    public function index()
-    {
-        $annonces = Annonce::with(['bien.categorie', 'bien.proprietaire.user'])
-            ->where('statut', 'validee')
-            ->latest()
-            ->get();
+   public function index()
+{
+    $annonces = Annonce::with(['bien.categorie', 'bien.proprietaire.user'])
+        ->where('statut', 'validee')
+        ->latest()
+        ->paginate(9); // pagination pour utiliser links()
 
-        return view('client.accueil', compact('annonces'));
-    }
+    $favorisIds = auth()->check()
+        ? auth()->user()->favoris->pluck('annonce_id')->toArray()
+        : [];
+
+    return view('client.annonces.index', compact('annonces', 'favorisIds'));
+}
 
     public function create()
     {
@@ -103,5 +107,29 @@ class AnnonceController extends Controller
     ]);
 }
 
+public function toggle($annonceId)
+    {
+        $user = Auth::user();
 
+        if (!$user) {
+            return response()->json(['error' => 'Non autorisé'], 401);
+        }
+
+        $exists = $user->favoris()->where('annonce_id', $annonceId)->exists();
+
+        if ($exists) {
+            $user->favoris()->detach($annonceId);
+            $favoriAdded = false;
+        } else {
+            $user->favoris()->attach($annonceId);
+            $favoriAdded = true;
+        }
+
+        $totalFavoris = $user->favoris()->count();
+
+        return response()->json([
+            'favoriAdded' => $favoriAdded,
+            'totalFavoris' => $totalFavoris,
+        ]);
+    }
 }

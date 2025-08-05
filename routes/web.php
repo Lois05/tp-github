@@ -22,6 +22,8 @@ use App\Http\Controllers\Client\Proprietaire\AvisController as ProprietaireAvisC
 use App\Http\Controllers\Client\AvisController as ClientAvisController;
 use App\Http\Controllers\Client\PortefeuilleController;
 use App\Http\Controllers\Client\MonProfilController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\FavoriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,14 @@ Route::name('client.')->group(function () {
     Route::get('/annonces', [ClientHomeController::class, 'annonces'])->name('annonces.index');
     Route::get('/annonces/{id}', [ClientHomeController::class, 'showAnnonce'])->name('annonces.show');
 });
+
+
+
+Route::middleware(['auth'])->prefix('client')->name('client.')->group(function() {
+    Route::resource('messages', MessageController::class)->only(['index', 'show', 'store', 'create']);
+});
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +98,14 @@ Route::middleware(['auth'])->group(function () {
     // Profil utilisateur
     Route::get('/mon-profil', [MonProfilController::class, 'index'])->name('monprofil.index');
     Route::put('/mon-profil', [MonProfilController::class, 'update'])->name('monprofil.update');
+    Route::get('/mon-profil/edit', [MonProfilController::class, 'edit'])->name('monprofil.edit');
+    // Page formulaire changement mot de passe
+    Route::get('/mon-profil/change-password', [MonProfilController::class, 'changePasswordForm'])->name('password.change');
+
+    // Soumission du formulaire
+    Route::put('/mon-profil/change-password', [MonProfilController::class, 'changePassword'])->name('password.update');
+});
+
 
     // Dashboard global client
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('client.dashboard');
@@ -135,6 +153,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('avis', [ProprietaireAvisController::class, 'avisRecus'])->name('avis.recus');
     });
 
+    Route::middleware(['auth'])->group(function () {
+    Route::get('/favoris', [FavoriController::class, 'index'])->name('favoris.index');
+    // ajoute aussi les routes pour store, destroy si nécessaire
+    Route::post('/favoris/{annonce}/toggle', [FavoriController::class, 'toggle'])->name('favoris.toggle');
+    Route::post('/favoris/{annonce}', [FavoriController::class, 'store'])->name('favoris.store');
+    Route::delete('/favoris/{id}', [FavoriController::class, 'destroy'])->name('favoris.destroy');
+});
+
+
     /*
     |--------------------------------------------------------------------------
     | PARTIE CLIENT ANNONCE : publier une annonce rapide
@@ -150,7 +177,7 @@ Route::middleware(['auth'])->group(function () {
     */
     Route::get('/annonces/{annonce}/avis/create', [ClientAvisController::class, 'create'])->name('avis.create');
     Route::post('/annonces/{annonce}/avis', [ClientAvisController::class, 'store'])->name('avis.store');
-});
+
 
 /*
 |--------------------------------------------------------------------------

@@ -16,11 +16,16 @@ class HomeController extends Controller
     }
 
     public function annonces()
-    {
-        // Afficher toutes les annonces paginées (12 par page)
-        $annonces = Annonce::where('statut', 'validee')->latest()->paginate(12);
-        return view('client.annonces.index', compact('annonces'));
-    }
+{
+    $annonces = Annonce::where('statut', 'validee')->latest()->paginate(12);
+
+    $favorisIds = auth()->check()
+        ? auth()->user()->favoris()->pluck('annonce_id')->toArray()
+        : [];
+
+    return view('client.annonces.index', compact('annonces', 'favorisIds'));
+}
+
 
  public function showAnnonce($id)
 {

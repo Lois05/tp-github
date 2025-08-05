@@ -36,6 +36,8 @@ class AnnonceController extends Controller
         $annonces = $query->orderBy('id', 'desc')->paginate(10);
         $annonces->appends($request->only(['statut', 'search']));
 
+       
+
         return view('admin.annonces.index', compact('annonces', 'statut', 'search'));
     }
 

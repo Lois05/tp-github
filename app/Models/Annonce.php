@@ -57,4 +57,10 @@ public function images()
     return $this->hasMany(Image::class, 'annonce_id');
 }
 
+public function favoris()
+{
+    return $this->hasMany(Favori::class);
+}
+
+
 }

@@ -41,14 +41,23 @@ class DashboardController extends Controller
             ->orWhere('admin_id', $user->id)
             ->first();
 
-        return view('client.dashboard', [
-            'user' => $user,
-            'annonces' => $annonces,
-            'demandes' => $demandesEnvoyees, // ✅ Renommé ici !
-            'demandesRecues' => $demandesRecues,
-            'avis' => $avis,
-            'portefeuille' => $portefeuille,
-        ]);
+             // Récupérer les favoris récents de l'utilisateur avec les annonces liées
+    $favorisRecents = $user->favoris()->with('annonce')->latest()->take(5)->get();
+
+    // Total des favoris
+    $totalFavoris = $user->favoris()->count();
+
+            return view('client.dashboard', [
+        'user' => $user,
+        'annonces' => $annonces,
+        'demandes' => $demandesEnvoyees,
+        'demandesRecues' => $demandesRecues,
+        'avis' => $avis,
+        'portefeuille' => $portefeuille,
+        'favorisRecents' => $favorisRecents,
+        'totalFavoris' => $totalFavoris,
+    ]);
+
     }
 }
 

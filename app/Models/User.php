@@ -71,4 +71,20 @@ class User extends Authenticatable
     {
         return trim($this->prenom . ' ' . $this->nom);
     }
+
+    public function messagesEnvoyes()
+{
+    return $this->hasMany(Message::class, 'expediteur_id');
+}
+
+public function messagesRecus()
+{
+    return $this->hasMany(Message::class, 'recepteur_id');
+}
+
+public function favoris()
+{
+    return $this->hasMany(Favori::class);
+}
+
 }
