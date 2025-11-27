@@ -15,7 +15,11 @@ class ProprietaireAnnonceController extends Controller
     public function index()
 {
     $user = Auth::user();
-    $annonces = Annonce::with('categorie')->where('user_id', $user->id)->latest()->get();
+  $annonces = Annonce::with('categorie')
+    ->where('user_id', $user->id)
+    ->latest()
+    ->paginate(6); // Tu peux ajuster 6, 8, 9 selon ton design mobile
+
     return view('client.proprietaire.mes_annonces.index', compact('annonces'));
 }
 
